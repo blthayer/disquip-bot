@@ -1,0 +1,3 @@
+attr
+discord.py[voice]
+tabulate
