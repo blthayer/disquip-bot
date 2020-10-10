@@ -1,3 +1,5 @@
 attr
 discord.py[voice]
+pytest
+pytest-lazy-fixture
 tabulate
