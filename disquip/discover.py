@@ -2,7 +2,7 @@
 
 # Standard library:
 import os
-from typing import Sequence, Union
+from typing import Any, Dict, List, Sequence, Union
 
 # Third party:
 import attr
@@ -26,7 +26,7 @@ class AudioStore:
     # TODO: I think it would be more in-line with the attrs philosophy
     #   to use a Factory rather than the post init hook, but that gets
     #   a bit messy.
-    file_map: dict = attr.ib(init=False, repr=False)
+    file_map: Dict[int, str] = attr.ib(init=False, repr=False)
     """Mapping of integers to filenames within the ``audio_dir``."""
 
     def __attrs_post_init__(self):
@@ -68,3 +68,61 @@ class AudioStore:
 
         # We don't have a file. Return None to indicate.
         return None
+
+
+@attr.s(slots=True, kw_only=True)
+class AudioCollection:
+    """Collection of AudioStores."""
+
+    top_dir: str = attr.ib()
+    """Full path to top-level directory whose subdirectories contain
+    audio files.
+    """
+
+    audio_store_kw_args: Dict[str, Any] = attr.ib(factory=dict)
+    """Keyword arguments to pass to the AudioStores when initializing."""
+
+    audio_stores: Dict[str, AudioStore] = attr.ib(
+        init=False,
+        default=attr.Factory(
+            lambda self: {audio_dir: AudioStore(top_dir=self.top_dir,
+                                                audio_dir=audio_dir,
+                                                **self.audio_store_kw_args)
+                          for audio_dir in os.listdir(self.top_dir)},
+            takes_self=True
+        ))
+    """Dictionary mapping of AudioStores for each subdirectory in
+    top_dir.
+    """
+
+    def get_path(self, store_name: str, idx: int) -> str:
+        """Get a file path from an AudioStore by index.
+
+        :param store_name: Name of a subdirectory. Must be a key in
+            self.audio_stores.
+        :param idx: Integer index to look up.
+        :raises ValueError, IndexError: ValueError if the store_name
+            is not valid, IndexError if the idx is not valid.
+        """
+
+        # Look up the AudioStore.
+        try:
+            audio_store = self.audio_stores[store_name]
+        except KeyError:
+            raise ValueError(f'No such audio_name, {store_name}.') from None
+
+        # Lookup the path from the AudioStore given the index.
+        path = audio_store.get_path(idx)
+
+        # Raise exception if the index is not present.
+        if path is None:
+            raise IndexError(f'No such integer key, {idx}')
+
+        # All done!
+        return path
+
+    def get_store_names(self) -> List[str]:
+        """Return the names of the available stores."""
+        keys = list(self.audio_stores.keys())
+        keys.sort()
+        return keys

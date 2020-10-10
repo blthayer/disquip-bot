@@ -104,3 +104,52 @@ class TestAudioStore:
         """Expect None return for nonexistent key."""
         audio_store = audio_store_and_expected_files[0]
         assert audio_store.get_path(key) is None
+
+
+@pytest.fixture()
+def audio_collection(temp_filesystem):
+    return discover.AudioCollection(top_dir=temp_filesystem)
+
+
+class TestAudioCollection:
+    """Test out the AudioCollection."""
+
+    def test_stores(self, audio_collection):
+        """Check out the audio stores."""
+        # The fixture only creates a pair of directories.
+        assert len(audio_collection.audio_stores) == 2
+
+        # Loop:
+        for key, value in audio_collection.audio_stores.items():
+            # Ensure keys are strings and values are AudioStores.
+            assert isinstance(key, str)
+            assert isinstance(value, discover.AudioStore)
+
+            # The key should match the store's audio_dir.
+            assert key == value.audio_dir
+
+            # The collection's top_dir and the store's top_dir should
+            # match.
+            assert audio_collection.top_dir == value.top_dir
+
+    @pytest.mark.parametrize(
+        'key_idx,file_idx', [(0, 1), (0, 2), (1, 1), (1, 2), (1, 3)]
+    )
+    def test_get_path_valid(self, audio_collection, key_idx, file_idx):
+        """For valid store names and file indexes, we should get a
+        file back.
+        """
+        # TODO: the hard-coded parametrization is gross.
+        store_name = list(audio_collection.audio_stores.keys())[key_idx]
+        assert os.path.exists(audio_collection.get_path(
+            store_name, file_idx))
+
+    def test_get_path_bad_store(self, audio_collection):
+        with pytest.raises(ValueError, match='No such audio_name, bleh'):
+            audio_collection.get_path(store_name='bleh', idx=1)
+
+    def test_get_path_bad_idx(self, audio_collection):
+        store = list(audio_collection.audio_stores.keys())[0]
+        count = audio_collection.audio_stores[store].file_count
+        with pytest.raises(IndexError, match='No such integer key'):
+            audio_collection.get_path(store_name=store, idx=count+1)
