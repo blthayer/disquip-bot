@@ -10,3 +10,5 @@ venv
 .git
 # No helper Docker files.
 docker_ffmpeg
+# Do not include the .ini file to avoid accidental inclusion of API key.
+disquip.ini
