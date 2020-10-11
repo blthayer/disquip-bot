@@ -1,3 +1,9 @@
+# Audio files for suggested installation
+audio_files
+
+# FFmpeg for suggested local installation
+ffmpeg
+
 # PyCharm
 .idea
 
