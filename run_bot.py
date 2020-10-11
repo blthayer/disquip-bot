@@ -6,7 +6,7 @@ import logging
 import re
 from typing import List
 
-# Local:
+# disquip.
 from disquip.bot import BotHelper, DisquipBot
 from disquip.discover import AudioCollection
 
