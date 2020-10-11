@@ -6,7 +6,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='disquip-bot',
-    version='0.1.0',
+    version='0.1.5',
     url='https://github.com/blthayer/disquip-bot',
     license='MIT',
     author='Brandon Thayer',
@@ -16,7 +16,11 @@ setup(
     long_description=long_description,
     long_description_content_type='text/x-rst',
     packages=find_packages(".", exclude=['tests', '*.tests', '*.tests.*']),
-    install_requires=['attrs', 'discord.py[voice]', 'tabulate'],
+    # TODO: For whatever reason, doing "discord.py[voice]>=1.5.0" simply
+    #   did NOT work. So, we'll version-lock and manually include the
+    #   voice extra (just PyNaCl==1.3.0).
+    install_requires=['attrs==20.2.0', 'discord.py==1.5.0', 'PyNaCl==1.3.0',
+                      'tabulate==0.8.7'],
     python_requires='>=3.7',
     setup_requires=['wheel'],
     classifiers=[

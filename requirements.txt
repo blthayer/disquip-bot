@@ -1,4 +1,4 @@
-attr
+attrs
 discord.py[voice]
 pytest
 pytest-lazy-fixture
