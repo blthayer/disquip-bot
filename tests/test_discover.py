@@ -20,6 +20,7 @@ def test_file_structure(temp_filesystem, temp_pre_suf_one, temp_pre_suf_two):
 
     # Now, there should be two sub-directories.
     sub = os.listdir(temp_filesystem)
+    sub.sort()
     assert len(sub) == 2
 
     # Get paths to the sub directories.
@@ -135,7 +136,9 @@ class TestAudioCollection:
         file back.
         """
         # TODO: the hard-coded parametrization is gross.
-        store_name = list(audio_collection.audio_stores.keys())[key_idx]
+        keys = list(audio_collection.audio_stores.keys())
+        keys.sort()
+        store_name = keys[key_idx]
         assert os.path.exists(audio_collection.get_path(
             store_name, file_idx))
 
