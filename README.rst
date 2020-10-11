@@ -28,6 +28,7 @@ Contents
 --------
 
 ::
+
     `disquip-bot`_
         `Introduction`_
             `Backstory`_
@@ -56,6 +57,7 @@ Contents
             `Updating Configurations or Audio Files`_
         `Using the Bot`_
             `Help`_
+
 
 Installation Overview
 ---------------------
@@ -300,7 +302,7 @@ Where Can I Find Audio Files?
 
 The internet is full of audio files that are available to you for no
 cost. For example, `myinstants.com`_ has all sorts of files. You can
-also easily make your own using your PC's microphone. Also, ``FFmpeg`_
+also easily make your own using your PC's microphone. Also, `FFmpeg`_
 is a *very* powerful tool that you could use to create clips.
 
 If you love `Age Of Empires`_ here are a few suggestions:
