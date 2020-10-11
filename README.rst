@@ -65,11 +65,13 @@ Contents
         `Aliases`_
 
     `Run the Bot`_
+
         `Running for Docker Install`_
         `Running for Local Install`_
         `Updating Configurations or Audio Files`_
 
     `Using the Bot`_
+
         `Help`_
 
 
