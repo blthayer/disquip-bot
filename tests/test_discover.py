@@ -106,11 +106,6 @@ class TestAudioStore:
         assert audio_store.get_path(key) is None
 
 
-@pytest.fixture()
-def audio_collection(temp_filesystem):
-    return discover.AudioCollection(top_dir=temp_filesystem)
-
-
 class TestAudioCollection:
     """Test out the AudioCollection."""
 

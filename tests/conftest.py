@@ -6,6 +6,8 @@ import tempfile as tf
 # Third party:
 import pytest
 
+# Local:
+from disquip import discover
 
 @pytest.fixture()
 def temp_dir_top():
@@ -49,3 +51,8 @@ def temp_filesystem(temp_dir_top, temp_pre_suf_one, temp_pre_suf_two):
 
     # Return the name of the top-level directory.
     yield temp_dir_top
+
+
+@pytest.fixture()
+def audio_collection(temp_filesystem):
+    return discover.AudioCollection(top_dir=temp_filesystem)

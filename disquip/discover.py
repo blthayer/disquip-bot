@@ -121,7 +121,8 @@ class AudioCollection:
         # All done!
         return path
 
-    def get_store_names(self) -> List[str]:
+    @property
+    def store_names(self) -> List[str]:
         """Return the names of the available stores."""
         keys = list(self.audio_stores.keys())
         keys.sort()
