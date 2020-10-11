@@ -18,17 +18,16 @@ Head on over to `Contents`_ to get started.
 Backstory
 ^^^^^^^^^
 
-I found myself wishing I could easily play taunts from thedocker d
-`Age of Empires`_ video games while
-playing other games with my friends. So, I built out a prototype that
-went by the name of "AOE Taunt Board." Myself and my friends liked it,
-so I figured I'd make a publicly distributable version for you, the
-reader!
+I found myself wishing I could easily play taunts from the
+`Age of Empires`_ video games while playing other games with my friends.
+So, I built out a prototype that went by the name of "AOE Taunt Board."
+It was a hit, so I figured I'd make a publicly distributable version for
+you, the reader!
 
 Contents
 --------
 
-.. contents:: :local:
+TODO: This will unfortunately be a manual process.
 
 Installation Overview
 ---------------------
@@ -52,7 +51,34 @@ Disquip Bot:
     programs as well as manually placing program files in directories of
     your choosing.
 
-Select one of the approaches above and keep going! :)
+Whichever route you choose, be sure to first take care of the
+`Installation Preliminaries`_.
+
+Installation Preliminaries
+--------------------------
+
+No matter which installation route you take (see
+`Installation Overview`_), we're going to need a directory to place
+configuration and audio files. The directions here will assume that you
+created a new directory called ``disquip-bot`` in your home directory.
+On Windows, that's typically ``C:\Users\<youruser>\disquip-bot``. Please
+create this directory before going forward. To keep these directions
+simple, this directory will be referred to as ``~/disquip-bot`` going
+forward.
+
+Download disquip.ini
+^^^^^^^^^^^^^^^^^^^^
+
+Download `disquip.ini`_ and place it in ``~/disquip-bot``. Later, in
+`Configuration`_ we'll be modifying this file.
+
+Create "audio_files" Directory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Create a new directory called ``audio_files`` underneath
+``~/disquip-bot``. This is where we'll be placing our quips later on
+(`Audio Files`_).
+
 
 Docker Based Installation
 -------------------------
@@ -75,9 +101,9 @@ Windows edition other than Windows Home, *carefully* follow the
 directions at
 `Install Docker on Windows Pro, Enterprise, or Education`_.
 
-The easiest way to tell Windows edition, version, and build you're
+The easiest way to tell the Windows edition, version, and build you're
 running is to type "About" into the Windows search bar, and open
-click on the "About your PC" box. In the Window that opens, scroll down
+click on the "About your PC" box. In the window that opens, scroll down
 to "Windows specifications" to get information about your Windows
 installation.
 
@@ -85,12 +111,35 @@ Inevitably, Docker's installation instructions will instruct you to
 `Install Windows Subsystem for Linux`_. At the time of writing
 (2020-10-11), you can stop after completing "Step 5 - Set WSL 2 as your
 default version." No need to move on to "Step 6 - Install you Linux
-distribution of choice" - we'll be using Docker containers instead.
+distribution of choice" unless you would like to.
 
+
+Download the Disquip-Bot Docker Image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once you have Docker installed, it's time to download the Docker image
+for Disquip. Open up your favorite terminal (e.g. Command Prompt on
+Windows) and enter in the command
+``docker pull blthayer/disquip-bot:latest``. You'll now have a runnable
+Docker image with all the Disquip Bot prerequisites already installed.
+
+**For Advanced Users**: If you would prefer to build your own Docker
+image rather than pull a pre-built one, that is of course an option.
+Start by cloning or downloading the repository locally. Then, in your
+terminal change directories to the repository and run
+``docker_build.bat``. Linux/Mac users should be able to convert this to
+a ``.sh`` script in a matter of seconds :) *Additional info*: The main
+Dockerfile is simply called ``Dockerfile``. For caching convenience, a
+build needs run for both of the Dockerfiles in the ``docker_ffmpeg``
+directory. I've hard-coded the Docker repository and tags throughout
+the Dockerfiles and helper scripts, and you may wish to change those
+when you run your own build.
 
 Local Installation
 ------------------
 
+Local installation involves installing `Prerequisites`_ and then
+installing
 The installation process is roughly:
 
 1.  Install `Prerequisites`_.
@@ -107,7 +156,6 @@ Prerequisites
 
 TL;DR:
 
--   `Discord`_
 -   `Python`_ >= 3.7
 -   `FFmpeg`_
 -   `7zip`_
@@ -121,15 +169,16 @@ Disquip Bot is a Python program and thus requires that you install
 running a version of Python >= 3.7. Before going any further take
 a moment to `download Python`_ and then install it.
 
-In order to stream audio files over the internet, a handy program
-called `FFmpeg`_ is used. Windows users can
-check out `Install FFmpeg (Windows)`_. Mac/Linux users are
-assumed to be highly computer literate users who can get FFmpeg working
-solely given the link to FFmpeg :) If anyone would like to provide
-directions for Mac or Linux I'm happy to add them here.
+For Windows users: later we'll be downloaded a compressed ``.7z``
+archive that we'll need to extract. For extraction, we'll use `7zip`_.
+Please download and install.
 
-When we `Install FFmpeg (Windows)`_ it comes in a compressed ``.7z``
-archive. To extract, we use `7zip`_. Please download and install. 
+In order to stream audio files over the internet, a handy program
+called `FFmpeg`_ is used. Windows users should refer to
+`Install FFmpeg (Windows)`_. Mac/Linux users are assumed to be highly
+computer literate users who can get FFmpeg working solely given the link
+to FFmpeg :) If anyone would like to provide directions for Mac or Linux
+I'm happy to add them here.
 
 Install FFmpeg (Windows)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -141,15 +190,31 @@ FFmpeg distributions. Installing is as simple as:
     `gyan.dev`_. I've successfully used the
     `git-essentials FFmpeg build`_. You can find other builds at
     `FFmpeg`_ or build it yourself from source code.
-2.  Extract the downloaded ``.7z`` archive to a directory of your
-    choosing using `7zip`_. For me, that looks like navigating to my
-    ``Downloads`` folder, right clicking the downloaded ``.7z`` file,
-    hovering over ``7-zip``, and finally selecting ``Extract files...``.
-    I like to simply create a directory named ``ffmpeg`` in the same
-    directory where I extracted the files from the
-    `Download Disquip Bot Project`_ step and put the extracted files
-    there. The ultimate directory where ``FFmpeg`` resides is relevant
-    to `Configuration`_.
+2.  Extract the downloaded ``.7z`` archive to ``~/disquip-bot/ffmpeg``
+    using `7zip`_. For me, that looks like:
+
+    a.  Navigate to the ``Downloads`` folder (Typically
+        ``C:\Users\<your user>\Downloads``
+    b.  Right click the downloaded ``.7z`` file (it'll be named
+        like ``ffmpeg-2020-10-11-git-7ea4bcff7b-essentials_build.7z``)
+    c.  Hover over ``7-zip``, and selecting ``Extract files...``.
+    d.  In the pop-up:
+
+        -   Change ``Extract to:`` entry to ``~/disquip-bot/ffmpeg``,
+            replacing ``~`` with your full file system path.
+        -   Uncheck the checkbox directly below the ``Extract to`` box.
+        -   Check the ``Eliminate duplication of root folder`` box.
+        -   Click ``OK``.
+
+After following the directions above, you should have one sub-folder in
+``~/disquip-bot/ffmpeg`` named something like
+``ffmpeg-2020-10-11-git-7ea4bcff7b-essentials_build``. Within that
+sub-folder should be directories called ``bin``, ``doc``, and
+``presets``. There will also be a pair of files called ``LICENSE`` and
+``README``.
+
+Later on in `Configuration`_, you'll need the full file system path to
+``ffmpeg.exe`` in the ``bin`` directory.
 
 Download Disquip Bot Project
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -314,6 +379,7 @@ Help
 .. _Age of Empires: https://www.ageofempires.com/
 .. _Discord: https://discord.com/
 .. _Discord app: https://discord.com/developers/applications
+.. _disquip.ini: https://github.com/blthayer/disquip-bot/blob/main/disquip.ini
 .. _Disquip Bot: https://github.com/blthayer/disquip-bot
 .. _Disquip Bot .zip archive: https://github.com/blthayer/disquip-bot/archive/main.zip
 .. _Disquip Bot via git clone: https://github.com/blthayer/disquip-bot.git
