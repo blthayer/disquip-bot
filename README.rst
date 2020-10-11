@@ -139,17 +139,7 @@ Local Installation
 ------------------
 
 Local installation involves installing `Prerequisites`_ and then
-installing
-The installation process is roughly:
-
-1.  Install `Prerequisites`_.
-2.  Download (or Git clone) the `Disquip Bot`_ project.
-3.  Set up your `Audio Files`_.
-4.  Create a `Discord app`_.
-5.  Do some simple `Configuration`_.
-6.  `Add the bot to servers`_.
-7.  `Run the bot`_.
-8.  Enjoy!
+installing the Disquip Bot.
 
 Prerequisites
 ^^^^^^^^^^^^^
@@ -216,27 +206,38 @@ sub-folder should be directories called ``bin``, ``doc``, and
 Later on in `Configuration`_, you'll need the full file system path to
 ``ffmpeg.exe`` in the ``bin`` directory.
 
-Download Disquip Bot Project
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configure Python Virtual Environment and Install Disquip Bot
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You have two options:
--   `Disquip Bot .zip archive`_
--   `Disquip Bot via git clone`_
+After you've installed Python, we'll be configuring what's known as a
+virtual environment to install Python dependencies as well as the
+Disquip Bot. Here are directions for Windows (similar on Mac/Linux):
 
-If you took the ``.zip`` archive approach, extract it to the directory
-of your choosing. I like ``C:\Users\<my_user>\git\disquip-bot``. You
-may want to put your ``ffmpeg`` installation in there (see
-`Install FFmpeg (Windows)`_).
+1.  Start a Command Prompt (shortcut: ``Win + R`` keys, type ``cmd``,
+    hit ``Enter`` key).
+2.  Change directories to your ``~/disquip-bot`` directory using the
+    ``cd`` command. This should work: ``cd %USERPROFILE%\disquip-bot``.
+3.  Run the command ``py -3 -m venv venv`` to create a virtual
+    environment directory called ``venv`` in ``~/disquip-bot``. If you
+    have multiple versions of Python 3.x installed, you can specify
+    ``py -3.8``, for example.
+4.  Activate the virtual environment by running the command
+    ``venv\Scripts\activate.bat``. Your command line should now be
+    prefixed with "(venv)".
+5.  Python installs packages with a tool called ``pip``. Update it by
+    running: ``python -m pip install --upgrade pip``.
+6.  Install the Disquip Bot and its dependencies by running
+    ``python -m pip install disquip-bot``.
 
 Audio Files
 -----------
 
 As mentioned in the second sentence of this document, this project is a
-"bring your own audio files" project. Place all your audio files in a
-directory of your choosing. I like to use
-``C:\Users\<my_user>\git\disquip-bot\audio_files``. Within that
-directory there must be subdirectories that contain audio files. An
-example structure might look like::
+"bring your own audio files" project. If you've followed the directions,
+you should have a directory called ``audio_files`` in your
+``~/disquip-bot`` directory. Within that ``audio_files`` directory
+there must be subdirectories that contain audio files. An example
+structure might look like::
 
     -- audio_files:
     ------ AgeOfEmpires1
@@ -250,9 +251,9 @@ example structure might look like::
 How this structure is set up has meaning. To explain via example,
 assuming commands are prefixed with an exclamation mark (``!``):
 
-There will be two available commands, ``!AgeOfEmpires1` and
+There will be two available commands, ``!AgeOfEmpires1`` and
 ``!MontyPython`` (case insensitive). You can define `Aliases`_ for
-shorter names. The ``!AgeOfEmpires1`` command can accept 1 of 2
+shorter names. The ``!AgeOfEmpires1`` command can accept 1 of 2 possible
 arguments, "1," or "2". A quip command would look like
 ``!AgeOfEmpires1 2``, which would stream "02 No.mp3" into your current
 voice channel.
@@ -271,7 +272,8 @@ Where Can I Find Audio Files?
 
 The internet is full of audio files that are available to you for no
 cost. For example, `myinstants.com`_ has all sorts of files. You can
-also easily make your own using your PC's microphone.
+also easily make your own using your PC's microphone. Also, ``FFmpeg`_
+is a *very* powerful tool that you could use to create clips.
 
 If you love `Age Of Empires`_ here are a few suggestions:
 
@@ -300,10 +302,11 @@ Discord Configuration
 ---------------------
 
 It took me more time than I had hoped to figure this out, so hopefully
-these directions save you some time.
+these directions save you some time. We need to
+`Create a Discord Application`_ and then `Add the Bot to Servers`_.
 
-Create Discord Application
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Create a Discord Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1.  For starters, you of course need to have a `Discord`_ account.
 2.  Navigate to the `Discord app`_ site.
@@ -321,15 +324,14 @@ Add the Bot to Servers
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Scroll down to the bottom of the ``OAuth2`` tab for the application you
-made in `Create Discord Application`_. In the ``SCOPES`` area click on
-``bot``.
+made in `Create a Discord Application`_. In the ``SCOPES`` area check
+the ``bot`` box.
 
 The Disquip bot only needs the following permissions:
--   TEXT PERMISSIONS: "Send Messages"
--   VOICE PERMISSIONS: "Connect" and "Speak"
+-   **TEXT PERMISSIONS**: "Send Messages"
+-   **VOICE PERMISSIONS**: "Connect" and "Speak"
 
-
-Scroll down to the ``BOT PERMISSIONS`` are and click the appropriate
+Scroll down to the ``BOT PERMISSIONS`` area and click the appropriate
 boxes corresponding the permissions listed above.
 
 Finally, click on the ``Copy`` button in the ``SCOPES`` area. Paste
@@ -342,19 +344,31 @@ If you've followed all the steps in this section, your bot now should
 have permissions to listen to and send text messages as well as send
 audio messages into a voice channel.
 
+Don't close your web browser just yet! Keep that tab open and continue
+to `Configuration`_.
+
 Configuration
 -------------
 
 All the necessary configuration parameters for Disquip Bot are defined
-in ``disquip.ini``. You can find this file in the directory that you
-used in the `Download Disquip Bot Project`_ step.
+in ``disquip.ini``, which you should have downloaded during the
+`Installation Preliminaries`_. Rather than list every configuration
+option here, they're all listed in ``disquip.ini``. Open that file with
+your favorite text editor (I strongly recommend `Notepad++`_ if you're
+using Windows so that you can get syntax highlighting) and update the
+file according to your installation. Please read the entire file. Don't
+forget to hit "save" when you're done! :)
 
-Rather than list every configuration option here, they're all
-listed in ``disquip.ini``. Open that file with your favorite text
-editor (I strongly recommend `Notepad++`_ if you're using Windows so
-that you can get syntax highlighting) and update the file according to
-your installation. Please read the entire file. Don't forget to hit
-"save" when you're done! :)
+Here are a couple areas worth discussion explicitly:
+
+api_token
+^^^^^^^^^
+
+Remember when I asked you to keep your tab open from the `Discord app`_
+site? Here's where you'll use it. In the ``Bot`` tab, find the are where
+it says ``TOKEN``. Click the ``Copy`` button to copy your token to the
+clipboard. Use the copied value to update the ``api_token`` field in
+``disquip.ini``. Don't forget to save the file.
 
 Aliases
 ^^^^^^^
@@ -367,11 +381,64 @@ out the ``[aliases]`` section of ``disquip.ini``
 Run the Bot
 -----------
 
+After you've performed all the installation and configuration steps
+above, you're ready to run! Running the bot looks different depending
+on whether you took the `Docker Based Installation`_ or
+`Local Installation`_ path. Read on!
+
+Running for Docker Install
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you're on Windows, download the file called ``docker_run.bat`` from
+`Disquip Bot`_ on GitHub and place it in your ``~/disquip-bot``
+directory. Simply run the script inside the ``~/disquip-bot`` directory
+to fire it up! This script assumes you've placed all files as directed
+in these directions. If you didn't, the script will be easy to tweak.
+For Mac/Linux users, ``docker_run.bat`` will be very easy to port to
+a shell script.
+
+To stop the bot, use the ``Ctrl + C`` keyboard command. Unfortunately,
+this will only kill the command window and not the actual Docker
+container. Run ``docker container ls`` to view running containers.
+Locate the name (``NAMES`` column) of the running container and then
+execute ``docker stop <name>``.
+
+Running for Local Install
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is pretty quick and easy! :)
+
+1.  Using a command prompt, change directories to ``~/disquip-bot`` via
+    ``cd %USERPROFILE%\disquip-bot``.
+2.  Activate your virtual environment via the command
+    ``venv\Scripts\activate.bat``.
+3.  Execute the command ``disquip-bot`` to fire it up.
+
+When you're done, simply kill the command window you have running or
+use ``Ctrl + C`` to stop the program.
+
+Updating Configurations or Audio Files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Disquip bot does not dynamically detect changes to audio files or
+configurations. After making a change, simply stop the bot and start it
+again to pick up any changes.
+
 Using the Bot
 -------------
 
+The bot will listen to all the text channels of the server(s) you added
+it to and look for messages that start with the ``cmd_prefix`` defined
+in ``disquip.ini``. This defaults to the exclamation mark (``!``).
+
+Start exploring!
+
 Help
 ^^^^
+
+Assuming your command prefix is ``!``, simply type ``!help`` into a
+text channel the bot has access to. It'll respond with a listing of
+available commands and some other helpful information.
 
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
