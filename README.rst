@@ -27,36 +27,50 @@ you, the reader!
 Contents
 --------
 
-::
+`disquip-bot`_
 
-    `disquip-bot`_
-        `Introduction`_
-            `Backstory`_
-        `Installation Overview`_
-        `Installation Preliminaries`_
-            `Download disquip.ini`_
-            `Create "audio_files" Directory`_
-        `Docker Based Installation`_
-            `Install Docker On Windows`_
-            `Download the Disquip Bot Docker Image`_
-        `Local Installation`_
-            `Prerequisites`_
-            `Install FFmpeg (Windows)`_
-            `Configure Python Virtual Environment and Install Disquip Bot`_
-        `Audio Files`_
-            `Where Can I Find Audio Files?`_
-        `Discord Configuration`_
-            `Create a Discord Application`_
-            `Add the Bot to Servers`_
-        `Configuration`_
-            `API Token`_
-            `Aliases`_
-        `Run the Bot`_
-            `Running for Docker Install`_
-            `Running for Local Install`_
-            `Updating Configurations or Audio Files`_
-        `Using the Bot`_
-            `Help`_
+    `Introduction`_
+
+        `Backstory`_
+
+    `Installation Overview`_
+    `Installation Preliminaries`_
+
+        `Download disquip.ini`_
+        `Create "audio_files" Directory`_
+
+    `Docker Based Installation`_
+
+        `Install Docker On Windows`_
+        `Download the Disquip Bot Docker Image`_
+
+    `Local Installation`_
+
+        `Prerequisites`_
+        `Install FFmpeg (Windows)`_
+        `Configure Python Virtual Environment and Install Disquip Bot`_
+
+    `Audio Files`_
+
+        `Where Can I Find Audio Files?`_
+
+    `Discord Configuration`_
+
+        `Create a Discord Application`_
+        `Add the Bot to Servers`_
+
+    `Configuration`_
+
+        `API Token`_
+        `Aliases`_
+
+    `Run the Bot`_
+        `Running for Docker Install`_
+        `Running for Local Install`_
+        `Updating Configurations or Audio Files`_
+
+    `Using the Bot`_
+        `Help`_
 
 
 Installation Overview
