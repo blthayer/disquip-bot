@@ -1,5 +1,5 @@
 disquip-bot
-***********
+===========
 
 An easy-to-use Discord soundboard bot. BYO audio files and quip away!
 
@@ -11,29 +11,92 @@ sound board bot that is easy to install, configure, and run. After
 installation, simply create a directory structure with your own quips
 (audio files) and run the bot! Then, head on over to your favorite
 Discord server, and punch in commands like ``!aoe3 11`` and the bot
-will play the corresponding quip for you.
+will play the corresponding quip for you into your voice channel.
 
-If your interest is piqued, you can get moving by checking out
-`Installation`_.
+Head on over to `Contents`_ to get started.
 
 Backstory
 ---------
 
-I found myself wishing I could easily play taunts from the
+I found myself wishing I could easily play taunts from thedocker d
 `Age of Empires`_ video games while
 playing other games with my friends. So, I built out a prototype that
 went by the name of "AOE Taunt Board." Myself and my friends liked it,
 so I figured I'd make a publicly distributable version for you, the
 reader!
 
+Contents
+========
+
+.. contents:: :local:
+
+1.  `Installation`_
+2.  TODO...
+
+If your interest is piqued, you can get moving by checking out
+`Installation`_.
+
+
 Installation
 ============
 
 Depending on your personal level of computer literacy, installation
-takes ~10-60 minutes. It's possible that in the future this project will
-provide a simple .zip download with *everything* you need, reducing
-installation time to the 5 minute or less range. However, I'd have to
-figure out where to host the installation files for download...
+takes ~10-60 minutes. There are two different ways to install the
+Disquip Bot:
+
+-   `Docker Based Installation`_: If you already have Docker installed,
+    this is the easiest path to take. If you do not already have Docker,
+    note that Docker is a large program (the installer for Docker alone
+    was 407MB on 2020-10-11), and it takes a little extra work to
+    `Install Docker on Windows`_ compared to to Mac/Linux. However,
+    once Docker is installed, there are significantly less steps
+    required to get the Disquip Bot running compared to the
+    `Local Installation`_.
+-   `Local Installation`_: The local installation process is relatively
+    straight forward and will lead to a leaner installation if you do
+    not have Docker installed and don't plan to install it in the
+    future. However, it involves downloading and installing several
+    programs as well as manually placing program files in directories of
+    your choosing.
+
+Select one of the approaches above and keep going! :)
+
+Docker Based Installation
+-------------------------
+
+Note that if you're running Windows, you'll need at least Windows 10
+version 2004. More details can be found at `Install Docker on Windows`_.
+
+The Docker installation process is simpler for Linux users (and maybe
+for Mac users as well?), so no directions are provided here. Head on out
+to the `Docker`_ documentation to get started.
+
+
+Install Docker On Windows
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+How you proceed depends on the edition of Windows 10 you're running. Many
+users will likely have Windows Home, and should thus *carefully* follow
+the directions at `Install Docker on Windows Home`_. If you have a
+Windows edition other than Windows Home, *carefully* follow the
+directions at
+`Install Docker on Windows Pro, Enterprise, or Education`_.
+
+The easiest way to tell Windows edition, version, and build you're
+running is to type "About" into the Windows search bar, and open
+click on the "About your PC" box. In the Window that opens, scroll down
+to "Windows specifications" to get information about your Windows
+installation.
+
+Inevitably, Docker's installation instructions will instruct you to
+`Install Windows Subsystem for Linux`_. At the time of writing
+(2020-10-11), you can stop after completing "Step 5 - Set WSL 2 as your
+default version." No need to move on to "Step 6 - Install you Linux
+distribution of choice" - we'll be using Docker containers instead.
+
+
+Local Installation
+------------------
 
 The installation process is roughly:
 
@@ -47,7 +110,7 @@ The installation process is roughly:
 8.  Enjoy!
 
 Prerequisites
--------------
+^^^^^^^^^^^^^
 
 TL;DR:
 
@@ -70,10 +133,10 @@ called `FFmpeg`_ is used. Windows users can
 check out `Install FFmpeg (Windows)`_. Mac/Linux users are
 assumed to be highly computer literate users who can get FFmpeg working
 solely given the link to FFmpeg :) If anyone would like to provide
-directions for Mac or Linux I'm happy to add them.
+directions for Mac or Linux I'm happy to add them here.
 
 When we `Install FFmpeg (Windows)`_ it comes in a compressed ``.7z``
-archive. To extract, we use `7zip`_. Please download and install.
+archive. To extract, we use `7zip`_. Please download and install. 
 
 Install FFmpeg (Windows)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -234,7 +297,8 @@ Rather than list every configuration option here, they're all
 listed in ``disquip.ini``. Open that file with your favorite text
 editor (I strongly recommend `Notepad++`_ if you're using Windows so
 that you can get syntax highlighting) and update the file according to
-your installation. Please read the entire file.
+your installation. Please read the entire file. Don't forget to hit
+"save" when you're done! :)
 
 Aliases
 -------
@@ -260,10 +324,14 @@ ____
 .. _Disquip Bot: https://github.com/blthayer/disquip-bot
 .. _Disquip Bot .zip archive: https://github.com/blthayer/disquip-bot/archive/main.zip
 .. _Disquip Bot via git clone: https://github.com/blthayer/disquip-bot.git
+.. _Docker: https://docs.docker.com/
 .. _Download Python: https://www.python.org/downloads/
 .. _FFmpeg: https://ffmpeg.org/
 .. _git-essentials FFmpeg build: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z
 .. _gyan.dev: https://www.gyan.dev/ffmpeg/builds/
+.. _Install Docker on Windows Home: https://docs.docker.com/docker-for-windows/install-windows-home/
+.. _Install Docker on Windows Pro, Enterprise, or Education: https://docs.docker.com/docker-for-windows/install/
+.. _Install Windows Subsystem for Linux: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 .. _myinstants.com: https://www.myinstants.com
 .. _Notepad++: https://notepad-plus-plus.org/
 .. _Python: https://www.python.org/
