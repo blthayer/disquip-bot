@@ -236,19 +236,16 @@ As mentioned in the second sentence of this document, this project is a
 directory of your choosing. I like to use
 ``C:\Users\<my_user>\git\disquip-bot\audio_files``. Within that
 directory there must be subdirectories that contain audio files. An
-example structure might look like:
+example structure might look like::
 
-```
--- audio_files:
------- AgeOfEmpires1
----------- 01 Yes.mp3
----------- 02 No.mp3
------- MontyPython
----------- I fart in your general direction.wav
----------- Bleed on me.wav
----------- Weirdo.wav
-
-```
+    -- audio_files:
+    ------ AgeOfEmpires1
+    ---------- 01 Yes.mp3
+    ---------- 02 No.mp3
+    ------ MontyPython
+    ---------- I fart in your general direction.wav
+    ---------- Bleed on me.wav
+    ---------- Weirdo.wav
 
 How this structure is set up has meaning. To explain via example,
 assuming commands are prefixed with an exclamation mark (``!``):
@@ -284,8 +281,9 @@ If you love `Age Of Empires`_ here are a few suggestions:
     ``C:\Program Files (x86)\Steam\steamapps\common\Age Of Empires 3\bin\Sound\taunts``
 -   **Age of Empires 1**: A tad more work, and the gain is rather
     minimal. If you're dedicated, read on:
-    -   Subscribe to the "Age of Empires 1 Taunt Pack" on the `Steam Workshop
-        <https://steamcommunity.com/sharedfiles/filedetails/?id=137168612>`__.
+
+    -   Subscribe to the "Age of Empires 1 Taunt Pack" on the
+        `Steam Workshop <https://steamcommunity.com/sharedfiles/filedetails/?id=137168612>`__.
     -   The mod will download automatically in Steam.
     -   Check the logs at
         ``C:\Program Files (x86)\Steam\steamapps\common\Age2HD\Logs\2020.10.03-0839.59``
