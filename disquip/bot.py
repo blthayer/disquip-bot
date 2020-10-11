@@ -250,7 +250,7 @@ class DisquipBot(discord.Client):
                 discord.FFmpegPCMAudio(
                     source=audio_file, executable=self.ffmpeg))
         except Exception as exc:
-            message.channel.send('Something went wrong...')
+            await message.channel.send('Something went wrong...')
             self.bot_helper.log.exception('Failed to transform audio.')
             return
         else:
