@@ -29,9 +29,7 @@ COPY --from=builder /disquip-bot/dist/*.whl /tmp/
 # Install.
 RUN pip install /tmp/*.whl && rm -f /tmp/*.whl
 
-# Copy in the run.py script.
 WORKDIR /disquip-bot
-COPY run_bot.py /disquip-bot/run_bot.py
 
 # Run!
-CMD ["python", "run_bot.py"]
+CMD ["disquip-bot"]

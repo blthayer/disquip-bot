@@ -18,5 +18,16 @@ setup(
     packages=find_packages(".", exclude=['tests', '*.tests', '*.tests.*']),
     install_requires=['attr', 'discord.py[voice]', 'tabulate'],
     python_requires='>=3.7',
-    setup_requires=['wheel']
+    setup_requires=['wheel'],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: End Users/Desktop",
+        "Intended Audience :: Developers",
+    ],
+    entry_points={
+        'console_scripts': 'disquip-bot = disquip:main'
+    }
 )
