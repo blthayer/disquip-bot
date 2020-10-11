@@ -1,9 +1,9 @@
 """The bot!"""
 
 # Standard library:
-import logging
 import os
 import re
+import logging
 from typing import Dict, Optional, Sequence, Tuple, Union
 
 # Third party:
@@ -13,9 +13,6 @@ from tabulate import tabulate
 
 # Local:
 from .discover import AudioCollection
-
-# Set up logging.
-logging.basicConfig(level=logging.INFO)
 
 
 # noinspection PyDataclass,PyArgumentList
