@@ -201,9 +201,9 @@ Disquip Bot *should* be operating system agnostic, but to date has only
 been tested on Windows (I know, gross.).
 
 Disquip Bot is a Python program and thus requires that you install
-`Python`_ <https://www.python.org/>`__. Specifically, ensure you are
-running a version of Python >= 3.7. Before going any further take
-a moment to `download Python`_ and then install it.
+`Python`_. Specifically, ensure you are running a version of Python
+>= 3.7. Before going any further take a moment to `download Python`_ and
+then install it.
 
 For Windows users: later we'll be downloaded a compressed ``.7z``
 archive that we'll need to extract. For extraction, we'll use `7zip`_.
@@ -355,7 +355,7 @@ Create a Discord Application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1.  For starters, you of course need to have a `Discord`_ account.
-2.  Navigate to the `Discord app`_ site.
+2.  Navigate to the `Discord applications`_ site.
 3.  Click on ``New Application``
 4.  **OPTIONAL**: If you'd like, add a custom icon in the ``APP ICON``
     area. Perhaps a snip-and-sketch of your favorite game?
@@ -410,7 +410,7 @@ Here are a couple areas worth discussion explicitly:
 API Token
 ^^^^^^^^^
 
-Remember when I asked you to keep your tab open from the `Discord app`_
+Remember when I asked you to keep your tab open from the `Discord applications`_
 site? Here's where you'll use it. In the ``Bot`` tab, find the are where
 it says ``TOKEN``. Click the ``Copy`` button to copy your token to the
 clipboard. Use the copied value to update the ``api_token`` field in
@@ -489,7 +489,7 @@ available commands and some other helpful information.
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
 .. _Discord: https://discord.com/
-.. _Discord app: https://discord.com/developers/applications
+.. _Discord applications: https://discord.com/developers/applications
 .. _disquip.ini: https://github.com/blthayer/disquip-bot/blob/main/disquip.ini
 .. _Disquip Bot: https://github.com/blthayer/disquip-bot
 .. _Disquip Bot .zip archive: https://github.com/blthayer/disquip-bot/archive/main.zip
