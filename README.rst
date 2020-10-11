@@ -4,7 +4,7 @@ disquip-bot
 An easy-to-use Discord soundboard bot. BYO audio files and quip away!
 
 Introduction
-============
+------------
 
 The purpose of the Disquip Bot project is to provide a simple
 sound board bot that is easy to install, configure, and run. After
@@ -16,7 +16,7 @@ will play the corresponding quip for you into your voice channel.
 Head on over to `Contents`_ to get started.
 
 Backstory
----------
+^^^^^^^^^
 
 I found myself wishing I could easily play taunts from thedocker d
 `Age of Empires`_ video games while
@@ -26,19 +26,12 @@ so I figured I'd make a publicly distributable version for you, the
 reader!
 
 Contents
-========
+--------
 
 .. contents:: :local:
 
-1.  `Installation`_
-2.  TODO...
-
-If your interest is piqued, you can get moving by checking out
-`Installation`_.
-
-
-Installation
-============
+Installation Overview
+---------------------
 
 Depending on your personal level of computer literacy, installation
 takes ~10-60 minutes. There are two different ways to install the
@@ -159,7 +152,7 @@ FFmpeg distributions. Installing is as simple as:
     to `Configuration`_.
 
 Download Disquip Bot Project
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You have two options:
 -   `Disquip Bot .zip archive`_
@@ -171,7 +164,7 @@ may want to put your ``ffmpeg`` installation in there (see
 `Install FFmpeg (Windows)`_).
 
 Audio Files
-===========
+-----------
 
 As mentioned in the second sentence of this document, this project is a
 "bring your own audio files" project. Place all your audio files in a
@@ -212,7 +205,7 @@ file extensions (*e.g.*, ``.mp3``), will be used in creating `Help`_
 messages. So, the more descriptive, the better!
 
 Where Can I Find Audio Files?
------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The internet is full of audio files that are available to you for no
 cost. For example, `myinstants.com`_ has all sorts of files. You can
@@ -241,13 +234,13 @@ If you love `Age Of Empires`_ here are a few suggestions:
         ``aoe1`` to keep it short?
 
 Discord Configuration
-=====================
+---------------------
 
 It took me more time than I had hoped to figure this out, so hopefully
 these directions save you some time.
 
 Create Discord Application
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1.  For starters, you of course need to have a `Discord`_ account.
 2.  Navigate to the `Discord app`_ site.
@@ -262,7 +255,7 @@ Don't close that web browser or tab! Stay right where you are and move
 on to `Add the Bot to Servers`_.
 
 Add the Bot to Servers
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 Scroll down to the bottom of the ``OAuth2`` tab for the application you
 made in `Create Discord Application`_. In the ``SCOPES`` area click on
@@ -287,7 +280,7 @@ have permissions to listen to and send text messages as well as send
 audio messages into a voice channel.
 
 Configuration
-=============
+-------------
 
 All the necessary configuration parameters for Disquip Bot are defined
 in ``disquip.ini``. You can find this file in the directory that you
@@ -301,7 +294,7 @@ your installation. Please read the entire file. Don't forget to hit
 "save" when you're done! :)
 
 Aliases
--------
+^^^^^^^
 
 It's nice to have descriptive directory names like "monty_python" or
 "AgeOfEmpires1" but that can be cumbersome to type for a quick quip.
@@ -309,13 +302,13 @@ To alleviate this, the Disquip Bot supports aliases for commands. Check
 out the ``[aliases]`` section of ``disquip.ini``
 
 Run the Bot
-===========
+-----------
 
 Using the Bot
-=============
+-------------
 
 Help
-____
+^^^^
 
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
