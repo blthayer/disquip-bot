@@ -16,7 +16,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/x-rst',
     packages=find_packages(".", exclude=['tests', '*.tests', '*.tests.*']),
-    install_requires=['attr', 'discord.py[voice]', 'tabulate'],
+    install_requires=['attrs', 'discord.py[voice]', 'tabulate'],
     python_requires='>=3.7',
     setup_requires=['wheel'],
     classifiers=[
