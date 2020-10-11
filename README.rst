@@ -27,7 +27,35 @@ you, the reader!
 Contents
 --------
 
-TODO: This will unfortunately be a manual process.
+::
+    `disquip-bot`_
+        `Introduction`_
+            `Backstory`_
+        `Installation Overview`_
+        `Installation Preliminaries`_
+            `Download disquip.ini`_
+            `Create "audio_files" Directory`_
+        `Docker Based Installation`_
+            `Install Docker On Windows`_
+            `Download the Disquip Bot Docker Image`_
+        `Local Installation`_
+            `Prerequisites`_
+            `Install FFmpeg (Windows)`_
+            `Configure Python Virtual Environment and Install Disquip Bot`_
+        `Audio Files`_
+            `Where Can I Find Audio Files?`_
+        `Discord Configuration`_
+            `Create a Discord Application`_
+            `Add the Bot to Servers`_
+        `Configuration`_
+            `API Token`_
+            `Aliases`_
+        `Run the Bot`_
+            `Running for Docker Install`_
+            `Running for Local Install`_
+            `Updating Configurations or Audio Files`_
+        `Using the Bot`_
+            `Help`_
 
 Installation Overview
 ---------------------
@@ -114,7 +142,7 @@ default version." No need to move on to "Step 6 - Install you Linux
 distribution of choice" unless you would like to.
 
 
-Download the Disquip-Bot Docker Image
+Download the Disquip Bot Docker Image
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once you have Docker installed, it's time to download the Docker image
@@ -361,7 +389,7 @@ forget to hit "save" when you're done! :)
 
 Here are a couple areas worth discussion explicitly:
 
-api_token
+API Token
 ^^^^^^^^^
 
 Remember when I asked you to keep your tab open from the `Discord app`_
