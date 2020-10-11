@@ -16,7 +16,8 @@ def split(str_in: str) -> List[str]:
     return [x.strip() for x in re.split(r'\s*,\s*', str_in)]
 
 
-if __name__ == '__main__':
+def main():
+    """Parse disquip.ini and fire up the bot!"""
     # Get configuration.
     config = configparser.ConfigParser()
     config.read('disquip.ini')
@@ -50,3 +51,7 @@ if __name__ == '__main__':
 
     # Run it! This will connect to Discord.
     bot.run(dqc['api_token'])
+
+
+if __name__ == '__main__':
+    main()
