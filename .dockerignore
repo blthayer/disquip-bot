@@ -12,3 +12,7 @@ venv
 docker_ffmpeg
 # Do not include the .ini file to avoid accidental inclusion of API key.
 disquip.ini
+# No distribution files.
+dist
+build
+disquip_bot.egg-info
