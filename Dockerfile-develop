@@ -1,0 +1,13 @@
+# Development Dockerfile that just installs requirements.
+FROM blthayer/ffmpeg:slim
+
+# Suppress the annoying pip version check and disable caching to
+# save space.
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=0
+
+# Work out of /disquip-bot, copy the requirements int.
+WORKDIR /disquip-bot
+COPY requirements.txt .
+
+# Install Python requirements.
+RUN pip install --no-cache-dir -r requirements.txt
