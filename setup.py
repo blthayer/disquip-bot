@@ -6,7 +6,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='disquip-bot',
-    version='1.0.1',
+    version='1.0.2',
     url='https://github.com/blthayer/disquip-bot',
     license='MIT',
     author='Brandon Thayer',
@@ -21,7 +21,7 @@ setup(
     #   voice extra (just PyNaCl==1.3.0).
     install_requires=['attrs==20.2.0', 'discord.py==1.5.0', 'PyNaCl==1.3.0',
                       'tabulate==0.8.7'],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
     setup_requires=['wheel'],
     classifiers=[
         "Programming Language :: Python :: 3",

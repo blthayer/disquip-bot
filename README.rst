@@ -192,7 +192,7 @@ Prerequisites
 
 TL;DR:
 
--   `Python`_ >= 3.7
+-   `Python`_ >= 3.6
 -   `FFmpeg`_
 -   `7zip`_
 -   **OPTIONAL**: `Notepad++`_
@@ -202,7 +202,7 @@ been tested on Windows (I know, gross.).
 
 Disquip Bot is a Python program and thus requires that you install
 `Python`_. Specifically, ensure you are running a version of Python
->= 3.7. Before going any further take a moment to `download Python`_ and
+>= 3.6. Before going any further take a moment to `download Python`_ and
 then install it.
 
 For Windows users: later we'll be downloaded a compressed ``.7z``

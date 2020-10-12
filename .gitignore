@@ -4,6 +4,9 @@ audio_files
 # FFmpeg for suggested local installation
 ffmpeg
 
+# Virtual environments not named venv
+venv*
+
 # PyCharm
 .idea
 
