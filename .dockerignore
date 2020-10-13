@@ -4,7 +4,7 @@ audio_files
 ffmpeg
 # No local testing cache or virtual environment:
 **/.pytest_cache
-venv
+venv*
 # No PyCharm or Git stuff.
 .idea
 .git
@@ -16,3 +16,11 @@ disquip.ini
 dist
 build
 disquip_bot.egg-info
+# No debug file.
+debug.py
+# No batch scripts.
+*.bat
+# No packaging directories.
+build
+disquip_bot.egg-info
+dist
