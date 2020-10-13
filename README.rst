@@ -6,7 +6,7 @@ An easy-to-use Discord soundboard bot. BYO audio files and quip away!
 Introduction
 ------------
 
-The purpose of the Disquip Bot project is to provide a simple
+The purpose of the DisQuip Bot project is to provide a simple
 sound board bot that is easy to install, configure, and run. After
 installation, simply create a directory structure with your own quips
 (audio files) and run the bot! Then, head on over to your favorite
@@ -42,13 +42,13 @@ Contents
     `Docker Based Installation`_
 
         `Install Docker On Windows`_
-        `Download the Disquip Bot Docker Image`_
+        `Download the DisQuip Bot Docker Image`_
 
     `Local Installation`_
 
         `Prerequisites`_
         `Install FFmpeg (Windows)`_
-        `Configure Python Virtual Environment and Install Disquip Bot`_
+        `Configure Python Virtual Environment and Install DisQuip Bot`_
 
     `Audio Files`_
 
@@ -80,7 +80,7 @@ Installation Overview
 
 Depending on your personal level of computer literacy, installation
 takes ~10-60 minutes. There are two different ways to install the
-Disquip Bot:
+DisQuip Bot:
 
 -   `Docker Based Installation`_: If you already have Docker installed,
     this is the easiest path to take. If you do not already have Docker,
@@ -88,7 +88,7 @@ Disquip Bot:
     was 407MB on 2020-10-11), and it takes a little extra work to
     `Install Docker on Windows`_ compared to to Mac/Linux. However,
     once Docker is installed, there are significantly less steps
-    required to get the Disquip Bot running compared to the
+    required to get the DisQuip Bot running compared to the
     `Local Installation`_.
 -   `Local Installation`_: The local installation process is relatively
     straight forward and will lead to a leaner installation if you do
@@ -160,14 +160,14 @@ default version." No need to move on to "Step 6 - Install you Linux
 distribution of choice" unless you would like to.
 
 
-Download the Disquip Bot Docker Image
+Download the DisQuip Bot Docker Image
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once you have Docker installed, it's time to download the Docker image
-for Disquip. Open up your favorite terminal (e.g. Command Prompt on
+for DisQuip. Open up your favorite terminal (e.g. Command Prompt on
 Windows) and enter in the command
 ``docker pull blthayer/disquip-bot:latest``. You'll now have a runnable
-Docker image with all the Disquip Bot prerequisites already installed.
+Docker image with all the DisQuip Bot prerequisites already installed.
 
 **For Advanced Users**: If you would prefer to build your own Docker
 image rather than pull a pre-built one, that is of course an option.
@@ -185,7 +185,7 @@ Local Installation
 ------------------
 
 Local installation involves installing `Prerequisites`_ and then
-installing the Disquip Bot.
+installing the DisQuip Bot.
 
 Prerequisites
 ^^^^^^^^^^^^^
@@ -197,10 +197,10 @@ TL;DR:
 -   `7zip`_
 -   **OPTIONAL**: `Notepad++`_
 
-Disquip Bot *should* be operating system agnostic, but to date has only
+DisQuip Bot *should* be operating system agnostic, but to date has only
 been tested on Windows (I know, gross.).
 
-Disquip Bot is a Python program and thus requires that you install
+DisQuip Bot is a Python program and thus requires that you install
 `Python`_. Specifically, ensure you are running a version of Python
 >= 3.6. Before going any further take a moment to `download Python`_ and
 then install it.
@@ -252,12 +252,12 @@ sub-folder should be directories called ``bin``, ``doc``, and
 Later on in `Configuration`_, you'll need the full file system path to
 ``ffmpeg.exe`` in the ``bin`` directory.
 
-Configure Python Virtual Environment and Install Disquip Bot
+Configure Python Virtual Environment and Install DisQuip Bot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 After you've installed Python, we'll be configuring what's known as a
 virtual environment to install Python dependencies as well as the
-Disquip Bot. Here are directions for Windows (similar on Mac/Linux):
+DisQuip Bot. Here are directions for Windows (similar on Mac/Linux):
 
 1.  Start a Command Prompt (shortcut: ``Win + R`` keys, type ``cmd``,
     hit ``Enter`` key).
@@ -272,7 +272,7 @@ Disquip Bot. Here are directions for Windows (similar on Mac/Linux):
     prefixed with "(venv)".
 5.  Python installs packages with a tool called ``pip``. Update it by
     running: ``python -m pip install --upgrade pip``.
-6.  Install the Disquip Bot and its dependencies by running
+6.  Install the DisQuip Bot and its dependencies by running
     ``python -m pip install disquip-bot``.
 
 Audio Files
@@ -373,7 +373,7 @@ Scroll down to the bottom of the ``OAuth2`` tab for the application you
 made in `Create a Discord Application`_. In the ``SCOPES`` area check
 the ``bot`` box.
 
-The Disquip bot only needs the following permissions:
+The DisQuip bot only needs the following permissions:
 -   **TEXT PERMISSIONS**: "Send Messages"
 -   **VOICE PERMISSIONS**: "Connect" and "Speak"
 
@@ -396,7 +396,7 @@ to `Configuration`_.
 Configuration
 -------------
 
-All the necessary configuration parameters for Disquip Bot are defined
+All the necessary configuration parameters for DisQuip Bot are defined
 in ``disquip.ini``, which you should have downloaded during the
 `Installation Preliminaries`_. Rather than list every configuration
 option here, they're all listed in ``disquip.ini``. Open that file with
@@ -421,7 +421,7 @@ Aliases
 
 It's nice to have descriptive directory names like "monty_python" or
 "AgeOfEmpires1" but that can be cumbersome to type for a quick quip.
-To alleviate this, the Disquip Bot supports aliases for commands. Check
+To alleviate this, the DisQuip Bot supports aliases for commands. Check
 out the ``[aliases]`` section of ``disquip.ini``
 
 Run the Bot
@@ -436,7 +436,7 @@ Running for Docker Install
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you're on Windows, download the file called ``docker_run.bat`` from
-`Disquip Bot`_ on GitHub and place it in your ``~/disquip-bot``
+`DisQuip Bot`_ on GitHub and place it in your ``~/disquip-bot``
 directory. Simply run the script inside the ``~/disquip-bot`` directory
 to fire it up! This script assumes you've placed all files as directed
 in these directions. If you didn't, the script will be easy to tweak.
@@ -466,7 +466,7 @@ use ``Ctrl + C`` to stop the program.
 Updating Configurations or Audio Files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Disquip bot does not dynamically detect changes to audio files or
+The DisQuip bot does not dynamically detect changes to audio files or
 configurations. After making a change, simply stop the bot and start it
 again to pick up any changes.
 
@@ -491,9 +491,9 @@ available commands and some other helpful information.
 .. _Discord: https://discord.com/
 .. _Discord applications: https://discord.com/developers/applications
 .. _disquip.ini: https://github.com/blthayer/disquip-bot/blob/main/disquip.ini
-.. _Disquip Bot: https://github.com/blthayer/disquip-bot
-.. _Disquip Bot .zip archive: https://github.com/blthayer/disquip-bot/archive/main.zip
-.. _Disquip Bot via git clone: https://github.com/blthayer/disquip-bot.git
+.. _DisQuip Bot: https://github.com/blthayer/disquip-bot
+.. _DisQuip Bot .zip archive: https://github.com/blthayer/disquip-bot/archive/main.zip
+.. _DisQuip Bot via git clone: https://github.com/blthayer/disquip-bot.git
 .. _Docker: https://docs.docker.com/
 .. _Download Python: https://www.python.org/downloads/
 .. _FFmpeg: https://ffmpeg.org/

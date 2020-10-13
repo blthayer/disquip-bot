@@ -25,7 +25,7 @@ def bot_helper(audio_collection, request):
 
 @pytest.fixture()
 def bot_inst(bot_helper):
-    return bot.DisquipBot(bot_helper=bot_helper)
+    return bot.DisQuipBot(bot_helper=bot_helper)
 
 
 @pytest.fixture()

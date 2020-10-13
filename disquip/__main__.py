@@ -7,7 +7,7 @@ import re
 from typing import List
 
 # disquip.
-from disquip.bot import BotHelper, DisquipBot
+from disquip.bot import BotHelper, DisQuipBot
 from disquip.discover import AudioCollection
 
 
@@ -45,8 +45,8 @@ def main():
     # Fire up the bot helper.
     bot_helper = BotHelper(audio_collection=audio_collection, aliases=aliases)
 
-    # Instantiate a DisquipBot.
-    bot = DisquipBot(bot_helper=bot_helper, ffmpeg=dqc['ffmpeg_path'],
+    # Instantiate a DisQuipBot.
+    bot = DisQuipBot(bot_helper=bot_helper, ffmpeg=dqc['ffmpeg_path'],
                      cmd_prefix=dqc['cmd_prefix'])
 
     # Run it! This will connect to Discord.

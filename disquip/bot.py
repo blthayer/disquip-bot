@@ -25,7 +25,7 @@ class BotHelper:
     """Instantiated AudioCollection."""
 
     log: logging.Logger = attr.ib(
-        factory=lambda: logging.getLogger('DisquipBot'))
+        factory=lambda: logging.getLogger('DisQuipBot'))
     """Logger for the bot."""
 
     cmd_prefix: str = attr.ib(default='!')
@@ -201,7 +201,7 @@ class BotHelper:
         return f'{msg}\n{table}'
 
 
-class DisquipBot(discord.Client):
+class DisQuipBot(discord.Client):
     """The bot!"""
 
     def __init__(self, bot_helper: BotHelper, *args, ffmpeg='ffmpeg',
@@ -215,7 +215,7 @@ class DisquipBot(discord.Client):
         """
         self.bot_helper = bot_helper
         self.ffmpeg = ffmpeg
-        super(DisquipBot, self).__init__(*args, **kwargs)
+        super(DisQuipBot, self).__init__(*args, **kwargs)
 
     async def on_ready(self):
         self.bot_helper.log.info(
