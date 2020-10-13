@@ -47,6 +47,7 @@ Contents
     `Local Installation`_
 
         `Prerequisites`_
+        `Quick Note For Mac/Linux Users`_
         `Install FFmpeg (Windows)`_
         `Configure Python Virtual Environment and Install DisQuip Bot`_
 
@@ -186,6 +187,15 @@ Local Installation
 
 Local installation involves installing `Prerequisites`_ and then
 installing the DisQuip Bot.
+
+Quick Note For Mac/Linux Users
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This bot depends on a wonderful package called `discord.py`_. There are
+additional dependencies that need installed for voice support for
+Mac/Linux. Please check out their
+`installation instructions <https://discordpy.readthedocs.io/en/latest/intro.html#installing>`__
+and install the prerequisites before continuing.
 
 Prerequisites
 ^^^^^^^^^^^^^
@@ -489,6 +499,7 @@ available commands and some other helpful information.
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
 .. _Discord: https://discord.com/
+.. _discord.py: https://discordpy.readthedocs.io/en/latest/index.html
 .. _Discord applications: https://discord.com/developers/applications
 .. _disquip.ini: https://github.com/blthayer/disquip-bot/blob/main/disquip.ini
 .. _DisQuip Bot: https://github.com/blthayer/disquip-bot
