@@ -37,7 +37,7 @@ def temp_filesystem(temp_dir_top, temp_pre_suf_one, temp_pre_suf_two):
     # Since we're using the temp_dir_top inside a context manager, no
     # need to use them here --> it'll clean everything up on exit.
     # Start by creating a pair of temporary directories.
-    td_1 = tf.TemporaryDirectory(dir=temp_dir_top, prefix='one')
+    td_1 = tf.TemporaryDirectory(dir=temp_dir_top, prefix='One')
     td_2 = tf.TemporaryDirectory(dir=temp_dir_top, prefix='two')
 
     # Make temporary files in the temporary directories.

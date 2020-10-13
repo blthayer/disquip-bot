@@ -43,7 +43,7 @@ def audio_store_and_expected_files(temp_filesystem, request) \
     have.
     """
     audio_dir = os.listdir(temp_filesystem)[request.param]
-    if audio_dir.startswith('one'):
+    if audio_dir.startswith('One'):
         expected_files = 2
     elif audio_dir.startswith('two'):
         expected_files = 3

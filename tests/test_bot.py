@@ -15,7 +15,7 @@ from disquip import bot
 @pytest.fixture(params=['!', '?'])
 def bot_helper(audio_collection, request):
     stores = audio_collection.store_names
-    aliases = {x: [x[0:3]] for x in stores}
+    aliases = {x: [x[0:3].lower()] for x in stores}
 
     return bot.BotHelper(
         audio_collection=audio_collection,
