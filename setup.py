@@ -6,7 +6,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='disquip-bot',
-    version='1.0.2',
+    version='1.0.3',
     url='https://github.com/blthayer/disquip-bot',
     license='MIT',
     author='Brandon Thayer',
@@ -18,7 +18,9 @@ setup(
     packages=find_packages(".", exclude=['tests', '*.tests', '*.tests.*']),
     # TODO: For whatever reason, doing "discord.py[voice]>=1.5.0" simply
     #   did NOT work. So, we'll version-lock and manually include the
-    #   voice extra (just PyNaCl==1.3.0).
+    #   voice extra (just PyNaCl==1.3.0). I suspect this is because
+    #   I was using TestPyPi and thus it couldn't find the packages...
+    #   Unfortunate.
     install_requires=['attrs==20.2.0', 'discord.py==1.5.0', 'PyNaCl==1.3.0',
                       'tabulate==0.8.7'],
     python_requires='>=3.6',
