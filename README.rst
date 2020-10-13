@@ -329,7 +329,9 @@ Where Can I Find Audio Files?
 The internet is full of audio files that are available to you for no
 cost. For example, `myinstants.com`_ has all sorts of files. You can
 also easily make your own using your PC's microphone. Also, `FFmpeg`_
-is a *very* powerful tool that you could use to create clips.
+is a *very* powerful tool that you could use to create clips. Want
+nearly 1,000 community-sourced quips from 1998? Head on over to
+`Age of Empires Heaven`_.
 
 If you love `Age Of Empires`_ here are a few suggestions:
 
@@ -498,6 +500,7 @@ available commands and some other helpful information.
 
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
+.. _Age of Empires Heaven: http://aoe.heavengames.com/downsnew/dwntaunts.shtml
 .. _Discord: https://discord.com/
 .. _discord.py: https://discordpy.readthedocs.io/en/latest/index.html
 .. _Discord applications: https://discord.com/developers/applications
