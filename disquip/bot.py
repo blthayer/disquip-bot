@@ -256,7 +256,7 @@ class DisquipBot(discord.Client):
         else:
             for voice_client in self.voice_clients:
                 # Only quip if we're in the correct channel.
-                if voice_client.channel.name != voice_channel.name:
+                if voice_client.channel.id != voice_channel.id:
                     continue
 
                 # If the bot is currently playing, stop.
