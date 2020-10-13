@@ -41,7 +41,7 @@ class BotHelper:
         """
         for key in aliases.keys():
             if key not in self.audio_collection.audio_stores:
-                raise ValueError(f'Command "{key}" in given aliases does '
+                raise ValueError(f'Directory "{key}" in given aliases does '
                                  'not exist!')
 
     alias_map: Dict[str, str] = attr.ib(init=False)
