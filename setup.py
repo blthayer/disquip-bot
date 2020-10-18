@@ -15,7 +15,8 @@ setup(
                 'and quip away!',
     long_description=long_description,
     long_description_content_type='text/x-rst',
-    packages=find_packages(".", exclude=['tests', '*.tests', '*.tests.*']),
+    packages=find_packages(".", exclude=[
+        'tests', '*.tests', '*.tests.*', 'service']),
     # TODO: For whatever reason, doing "discord.py[voice]>=1.5.0" simply
     #   did NOT work. So, we'll version-lock and manually include the
     #   voice extra (just PyNaCl==1.3.0). I suspect this is because
