@@ -68,7 +68,7 @@ service:
     log files. The default log location is ``/var/log/disquip-bot.log``.
 5.  Copy the rsyslog configuration file:
     ``sudo cp disquip-bot.rsyslog.conf /etc/rsyslog.d/``
-6.  Create the log file: ``sudo touch/var/log/disquip-bot.log``
+6.  Create the log file: ``sudo touch /var/log/disquip-bot.log``
 7.  Update the log path in ``disquip-bot.logrotate.conf`` to match
     what's in ``disquip-bot.rsyslog.conf``. If you kept the default,
     no action is needed here.
