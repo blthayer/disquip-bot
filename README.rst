@@ -75,6 +75,8 @@ Contents
 
         `Help`_
 
+    `Hosting the DisQuip Bot On a Server`_
+
 
 Installation Overview
 ---------------------
@@ -498,6 +500,21 @@ Assuming your command prefix is ``!``, simply type ``!help`` into a
 text channel the bot has access to. It'll respond with a listing of
 available commands and some other helpful information.
 
+Hosting the DisQuip Bot On a Server
+-----------------------------------
+
+Rather than running the DisQuip Bot on the same machine you're using to
+chat and play games, you may want to host it on a server. This will
+preserve resources on your local machine and allow the DisQuip Bot to
+stay online even when you aren't.
+
+The ``service`` directory in this repository has one sample
+implementation for running the DisQuip Bot as a service on a
+`Raspberry Pi 3 Model B`_ running the Raspbian GNU/Linux 9 (stretch)
+operating system. The directions there should apply to many different
+flavors of Linux. If you'd like to get started, check out
+``service/README.rst``.
+
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
 .. _Age of Empires Heaven: http://aoe.heavengames.com/downsnew/dwntaunts.shtml
@@ -519,3 +536,4 @@ available commands and some other helpful information.
 .. _myinstants.com: https://www.myinstants.com
 .. _Notepad++: https://notepad-plus-plus.org/
 .. _Python: https://www.python.org/
+.. _Raspberry Pi 3 Model B: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/

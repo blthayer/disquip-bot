@@ -1,0 +1,14 @@
+[Unit]
+Description="The DisQuip Bot"
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/home/pi/disquip-bot/venv/bin/disquip-bot
+WorkingDirectory=/home/pi/disquip-bot
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=disquip-bot
+
+[Install]
+WantedBy=multi-user.target
