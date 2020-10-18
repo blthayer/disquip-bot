@@ -45,7 +45,7 @@ present for more than 5 minutes of that :)
 4.  Change directories: ``cd Python-3.6.12``
 5.  Configure: ``./configure --enable-optimzations``
 6.  Make: ``make -j $(($(nproc) + 1))``
-7.  Install: ``make -j $(($(nproc) + 1)) altinstall``
+7.  Install: ``sudo make -j $(($(nproc) + 1)) altinstall``
 8.  Optional alias: Add the following to ``~/.bash_aliases``:
     ``alias python3='/usr/local/bin/python3.6'``
 
