@@ -1,5 +1,6 @@
 attrs
 discord.py[voice]
+ffmpeg-normalize
 pytest
 pytest-lazy-fixture
 tabulate
