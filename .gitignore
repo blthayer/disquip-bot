@@ -3,6 +3,7 @@ debug.py
 
 # Audio files for suggested installation
 audio_files
+audio_files_normalized
 
 # FFmpeg for suggested local installation
 ffmpeg
