@@ -6,7 +6,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='disquip-bot',
-    version='1.0.3',
+    version='1.1.0',
     url='https://github.com/blthayer/disquip-bot',
     license='MIT',
     author='Brandon Thayer',
@@ -22,7 +22,8 @@ setup(
     #   voice extra (just PyNaCl==1.3.0). I suspect this is because
     #   I was using TestPyPi and thus it couldn't find the packages...
     #   Unfortunate.
-    install_requires=['attrs==20.2.0', 'discord.py==1.5.0', 'PyNaCl==1.3.0',
+    install_requires=['attrs==20.2.0', 'discord.py==1.5.0',
+                      'ffmpeg-normalize==1.20.1', 'PyNaCl==1.3.0',
                       'tabulate==0.8.7'],
     python_requires='>=3.6',
     setup_requires=['wheel'],

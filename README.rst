@@ -77,6 +77,8 @@ Contents
 
     `Hosting the DisQuip Bot On a Server`_
 
+    `Changelog`_
+
 
 Installation Overview
 ---------------------
@@ -491,6 +493,10 @@ The bot will listen to all the text channels of the server(s) you added
 it to and look for messages that start with the ``cmd_prefix`` defined
 in ``disquip.ini``. This defaults to the exclamation mark (``!``).
 
+The DisQuip Bot will automagically join the voice channel you're
+currently in once it receives a valid command. Note that DisQuip Bot can
+only be in one voice channel per server at any given time.
+
 Start exploring!
 
 Help
@@ -515,6 +521,19 @@ operating system. The directions there should apply to many different
 flavors of Linux. If you'd like to get started, check out
 ``service/README.rst``.
 
+Changelog
+---------
+
+1.1.0
+^^^^^
+
+-   **Backwards incompatible change**: ``disquip.ini`` now requires a
+    ``pre_normalize`` field in the ``[disquip]`` section.
+-   By default, all audio files will first be pre-normalized to a peak
+    amplitude of 0 dB. This is accomplished using `ffmpeg-normalize`_.
+-   New ``random`` command!.
+
+
 .. _7zip: https://www.7-zip.org/
 .. _Age of Empires: https://www.ageofempires.com/
 .. _Age of Empires Heaven: http://aoe.heavengames.com/downsnew/dwntaunts.shtml
@@ -528,6 +547,7 @@ flavors of Linux. If you'd like to get started, check out
 .. _Docker: https://docs.docker.com/
 .. _Download Python: https://www.python.org/downloads/
 .. _FFmpeg: https://ffmpeg.org/
+.. _ffmpeg-normalize: https://github.com/slhck/ffmpeg-normalize
 .. _git-essentials FFmpeg build: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z
 .. _gyan.dev: https://www.gyan.dev/ffmpeg/builds/
 .. _Install Docker on Windows Home: https://docs.docker.com/docker-for-windows/install-windows-home/
