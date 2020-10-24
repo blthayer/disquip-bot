@@ -101,10 +101,15 @@ class BotHelper:
         # Handle the special random case.
         if cmd_str in RANDOM:
             if len(tokens) == 1:
-                # Full blind random.
-                # Start by picking a valid audio store.
-                store_name = random.choice(
-                    list(self.audio_collection.audio_stores.keys()))
+                # Full blind random. We need to weight the stores by
+                # the number of files they have to ensure all quips
+                # have an equal probability.
+                store_name = random.choices(
+                    list(self.audio_collection.audio_stores.keys()),
+                    weights=[x.file_count for x in
+                             self.audio_collection.audio_stores.values()],
+                    k=1
+                )[0]
 
             else:
                 # Look up the store. Gross copy + pasting... I sure do
