@@ -22,6 +22,11 @@ Prerequisites
 -   Follow the DisQuip Bot installation instructions for a local
     installation on your Linux machine. Directions here will assume
     you have a Python virtual environment in ``~/disquip-bot/venv``.
+    This environment can quickly be created via
+    ``python3 -m venv ~/disquip-bot/venv``, and the Disquip Bot should
+    be installed in this virtual environment:
+        -   ``source ~/disquip-bot/venv/bin/activate``
+        -   ``python3 -m pip install disquip-bot``
 
 Installing Python From Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,6 +53,7 @@ present for more than 5 minutes of that :)
 7.  Install: ``sudo make -j $(($(nproc) + 1)) altinstall``
 8.  Optional alias: Add the following to ``~/.bash_aliases``:
     ``alias python3='/usr/local/bin/python3.6'``
+9.  Create virtual environment: ``python3 -m venv ~/disquip-bot/venv``
 
 Directions
 ----------
