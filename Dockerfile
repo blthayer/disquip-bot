@@ -3,7 +3,7 @@ FROM blthayer/ffmpeg:buster as builder
 
 # Suppress the annoying pip version check and disable caching to
 # save space.
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=0
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=1
 
 # Copy everything in.
 WORKDIR /disquip-bot
@@ -21,7 +21,7 @@ FROM blthayer/ffmpeg:slim as runner
 
 # Suppress the annoying pip version check and disable caching to
 # save space.
-ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=0
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=1
 
 # Copy in the installed wheel from the builder.
 COPY --from=builder /disquip-bot/dist/*.whl /tmp/
