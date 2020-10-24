@@ -5,6 +5,7 @@ After=multi-user.target
 [Service]
 Type=idle
 ExecStart=/home/pi/disquip-bot/venv/bin/disquip-bot
+Environment="PATH=/home/pi/disquip-bot/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 WorkingDirectory=/home/pi/disquip-bot
 StandardOutput=syslog
 StandardError=syslog
