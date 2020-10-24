@@ -72,11 +72,12 @@ def main():
     aliases = {key: split(value) for key, value in config['aliases'].items()}
 
     # Fire up the bot helper.
-    bot_helper = BotHelper(audio_collection=audio_collection, aliases=aliases)
+    bot_helper = BotHelper(
+        cmd_prefix=dqc['cmd_prefix'], audio_collection=audio_collection,
+        aliases=aliases)
 
     # Instantiate a DisQuipBot.
-    bot = DisQuipBot(bot_helper=bot_helper, ffmpeg=ffmpeg_path,
-                     cmd_prefix=dqc['cmd_prefix'])
+    bot = DisQuipBot(bot_helper=bot_helper, ffmpeg=ffmpeg_path)
 
     # Run it! This will connect to Discord.
     bot.run(dqc['api_token'])
