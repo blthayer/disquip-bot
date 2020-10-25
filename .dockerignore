@@ -1,10 +1,13 @@
 # Audio files will get mounted via a volume, don't include on build.
 audio_files
+audio_files_normalized
 # If you also have a local FFmpeg install, don't include it...
 ffmpeg
 # No local testing cache or virtual environment:
 **/.pytest_cache
 venv*
+venv
+venv36
 # No PyCharm or Git stuff.
 .idea
 .git
