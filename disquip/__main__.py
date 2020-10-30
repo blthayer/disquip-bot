@@ -25,6 +25,13 @@ def main():
     config.read('disquip.ini')
     dqc = config['disquip']
 
+    # Configure logging early
+    logging.basicConfig(
+        level=getattr(logging, dqc['log_level'].upper()),
+        format="%(asctime)s [%(levelname)s] [%(name)s]: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S%z"
+    )
+
     # Get a list of audio extensions.
     audio_extensions = split(dqc['audio_extensions'])
 
@@ -59,13 +66,6 @@ def main():
     audio_collection = AudioCollection(
         top_dir=audio_directory,
         audio_store_kw_args={'audio_extensions': audio_extensions}
-    )
-
-    # Set up logging.
-    logging.basicConfig(
-        level=getattr(logging, dqc['log_level'].upper()),
-        format="%(asctime)s [%(levelname)s] [%(name)s]: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S%z"
     )
 
     # Get aliases.
