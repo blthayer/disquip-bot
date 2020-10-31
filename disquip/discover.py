@@ -14,6 +14,38 @@ import attr
 module_log = logging.getLogger(__name__)
 
 
+def _create_store_logger(store) -> logging.Logger:
+    """Creates a :class:`logging.Logger` for a specific :class:`.AudioStore`.
+
+    The name for the logger is based on the store's audio directory
+    name: ``disquip.discover.AudioStore.{audio_dir}``. If ``audio_dir``
+    includes subdirectories, they are separated by dots (so
+    ``foo/bar/baz`` would become ``foo.bar.baz``). ``AudioStore`` will
+    also reflect the name of the class, so if a subclass is used at
+    some point in time, the name of the logger will reflect that.
+
+    :param store: The audio store to create a logger for.
+    :type store: AudioStore
+    """
+    # Replace any existing dots in directory names with underscores, and then
+    # separate directories with dots.
+    no_dots_path = store.audio_dir.replace(".", "_")
+    # Separate directories with dots
+    dotted_path = ".".join(os.path.split(no_dots_path))
+    # Remove any leading dots
+    if dotted_path[0] == ".":
+        dotted_path = dotted_path[1:]
+    # Further normalization is *not* being done, as paths con contain almost
+    # anything besides null bytes and '/'
+    logger_name = f"{__name__}.{store.__class__.__name__}.{dotted_path}"
+    module_log.debug(
+        "Mapping AudioStore.audio_dir (%s) to logger name '%s'",
+        store.audio_dir,
+        logger_name
+    )
+    return logging.getLogger(logger_name)
+
+
 @attr.s(kw_only=True, slots=True)
 class AudioStore:
     """Helper class for finding audio files. You could also use this
@@ -28,6 +60,11 @@ class AudioStore:
 
     audio_extensions: Sequence[str] = attr.ib(default=('mp3', 'wav'))
     """Audio extensions to look for. No periods, please."""
+
+    log: logging.Logger = attr.ib(
+        default=attr.Factory(_create_store_logger, takes_self=True),
+    )
+    """Logger for this AudioStore."""
 
     # TODO: I think it would be more in-line with the attrs philosophy
     #   to use a Factory rather than the post init hook, but that gets
