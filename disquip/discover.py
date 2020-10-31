@@ -1,11 +1,17 @@
 """Helper for discovering audio files."""
 
 # Standard library:
+import logging
 import os
 from typing import Any, Dict, List, Sequence, Union
 
 # Third party:
 import attr
+
+
+# module-level logger, named differently so there's no confusion between which
+# logger is being used.
+module_log = logging.getLogger(__name__)
 
 
 @attr.s(kw_only=True, slots=True)
