@@ -107,10 +107,12 @@ class AudioStore:
 
         # If we have a file, return a full path.
         if file_name is not None:
+            self.log.debug("Mapped integer %d to file name '%s'", i, file_name)
             return os.path.join(self._audio_dir_full, file_name)
-
-        # We don't have a file. Return None to indicate.
-        return None
+        else:
+            self.log.warn("Unmapped file index %d", i)
+            # We don't have a file. Return None to indicate.
+            return None
 
 
 @attr.s(slots=True, kw_only=True)
