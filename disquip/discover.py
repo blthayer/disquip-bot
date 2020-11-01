@@ -110,7 +110,7 @@ class AudioStore:
             self.log.debug("Mapped integer %d to file name '%s'", i, file_name)
             return os.path.join(self._audio_dir_full, file_name)
         else:
-            self.log.warn("Unmapped file index %d", i)
+            self.log.warning("Unmapped file index %d", i)
             # We don't have a file. Return None to indicate.
             return None
 
