@@ -29,7 +29,7 @@ def normalize(in_dir, out_dir, extensions, ffmpeg_path=None):
         subprocess.run(
             ['ffmpeg-normalize'] + files
             + ['-of', out_dir, '-nt', 'peak', '-t', '0', '-c:a', 'libmp3lame',
-            '-ext', 'mp3'],
+               '-ext', 'mp3'],
             env=env)
     else:
         log.error("No audio files found in '%s'", in_dir)
