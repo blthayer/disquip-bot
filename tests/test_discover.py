@@ -99,7 +99,7 @@ class TestAudioStore:
         for i in range(expected_files):
             assert os.path.exists(audio_store.get_path(i+1))
 
-    @pytest.mark.parametrize('key', (10293834, '1', 'my_file'))
+    @pytest.mark.parametrize('key', [10293834, 155])
     def test_get_path_returns_none_for_bad_key(
             self, audio_store_and_expected_files, key):
         """Expect None return for nonexistent key."""
