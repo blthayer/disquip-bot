@@ -32,7 +32,7 @@ class BotHelper:
     """Instantiated AudioCollection."""
 
     log: logging.Logger = attr.ib(
-        factory=lambda: logging.getLogger('DisQuipBot'))
+        factory=lambda: logging.getLogger(__name__))
     """Logger for the bot."""
 
     cmd_prefix: str = attr.ib(default='!')
