@@ -6,7 +6,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='disquip-bot',
-    version='1.1.0',
+    version='1.1.1',
     url='https://github.com/blthayer/disquip-bot',
     license='MIT',
     author='Brandon Thayer',

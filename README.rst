@@ -524,6 +524,12 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.1
+^^^^^
+
+Thanks to `Will Ross`_ for this one. Major logging improvements
+throughout the DisQuip Bot.
+
 1.1.0
 ^^^^^
 
@@ -557,3 +563,4 @@ Changelog
 .. _Notepad++: https://notepad-plus-plus.org/
 .. _Python: https://www.python.org/
 .. _Raspberry Pi 3 Model B: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
+.. _Will Ross: https://github.com/paxswill
