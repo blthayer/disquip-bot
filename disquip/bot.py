@@ -93,6 +93,9 @@ class BotHelper:
                 return (f'There are only two valid {self.cmd_prefix}help '
                         f'forms: "{self.cmd_prefix}help" and '
                         f"{self.cmd_prefix}help <command>."), None
+        # Disconnect:
+        elif cmd_str == 'disconnect':
+            return 'disconnect', None
 
         # Ignore commands with more than 1 argument.
         if len(tokens) > 2:
@@ -199,6 +202,10 @@ class BotHelper:
             cmd_list = []
             cmd_headers = ['Command', 'Alias(es)', 'Number of Quips']
 
+            # Add in the disconnect listing.
+            cmd_list.append(
+                (f'{self.cmd_prefix}disconnect', 'N/A', 'N/A'))
+
             # Add in random listing.
             cmd_list.append(
                 (f'{self.cmd_prefix}{RANDOM[0]}',
@@ -243,6 +250,14 @@ class BotHelper:
                     f'- Passing a valid command as an argument (e.g. '
                     f'{cmd_example}): Randomly choose a quip for the given '
                     f'command.'
+                )
+                return msg
+
+            elif store == 'disconnect':
+                cmd = f'"{self.cmd_prefix}disconnect"'
+                msg = (
+                    f'The {cmd} command disconnects the bot from the voice '
+                    'channel of the user that gave the command.'
                 )
                 return msg
 
@@ -300,8 +315,13 @@ class DisQuipBot(discord.Client):
         # Parse the message.
         msg, audio_file = self.bot_helper.parse_message(message.content)
 
+        # Check for disconnect flag:
+        if (msg == 'disconnect') and (audio_file is None):
+            await self._disconnect_voice(message)
+            return
+
         # Send in text message if applicable.
-        if msg:
+        elif msg:
             await self._send_message(channel=message.channel, msg=msg)
 
         # Get outta here if there's no audio file.
@@ -375,15 +395,12 @@ class DisQuipBot(discord.Client):
     def _format_msg(msg):
         return f'```{msg}```'
 
-    @staticmethod
-    async def _connect_voice(message):
-        # Reference: https://stackoverflow.com/a/53790124/11052174
-        # Grab the user who sent the command
-        user = message.author
-        # Access their voice channel.
-        try:
-            voice_channel = user.voice.channel
-        except AttributeError:
+    async def _connect_voice(self, message):
+        # Get the relevant voice channel.
+        voice_channel = self._get_user_voice_channel(message)
+
+        # If they're not in one, chastise them.
+        if voice_channel is None:
             await message.channel.send(
                 "Hey there troll, you aren't in a voice channel! "
                 "No quips for you!")
@@ -400,3 +417,40 @@ class DisQuipBot(discord.Client):
                 raise exc
 
         return voice_channel
+
+    @staticmethod
+    def _get_user_voice_channel(message):
+        # Reference: https://stackoverflow.com/a/53790124/11052174
+        # Grab the user who sent the command
+        user = message.author
+        # Access their voice channel.
+        try:
+            return user.voice.channel
+        except AttributeError:
+            return None
+
+    async def _disconnect_voice(self, message):
+        # Get the relevant voice channel.
+        voice_channel = self._get_user_voice_channel(message)
+
+        # If they're not in one, chastise them.
+        if voice_channel is None:
+            await self._disconnect_not_allowed(message.channel)
+            return
+
+        for voice_client in self.voice_clients:
+            # Only disconnect if the user is in the correct channel.
+            if voice_client.channel.id == voice_channel.id:
+                await voice_client.disconnect()
+                return
+
+        # If we're here, the user tried to disconnect from a different
+        # channel.
+        await self._disconnect_not_allowed(message.channel)
+
+    @staticmethod
+    async def _disconnect_not_allowed(channel):
+        await channel.send(
+            'Hey there, troll, you cannot disconnect the DisQuip Bot without '
+            'being in the same voice channel as the bot.'
+        )
