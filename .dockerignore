@@ -1,5 +1,6 @@
 # Directories, alphabetically:
 .git
+.github
 .idea
 **/.pytest_cache
 audio_files
