@@ -174,14 +174,8 @@ Docker image with all the DisQuip Bot prerequisites already installed.
 **For Advanced Users**: If you would prefer to build your own Docker
 image rather than pull a pre-built one, that is of course an option.
 Start by cloning or downloading the repository locally. Then, in your
-terminal change directories to the repository and run
-``docker_build.bat``. Linux/Mac users should be able to convert this to
-a ``.sh`` script in a matter of seconds :) *Additional info*: The main
-Dockerfile is simply called ``Dockerfile``. For caching convenience, a
-build needs run for both of the Dockerfiles in the ``docker_ffmpeg``
-directory. I've hard-coded the Docker repository and tags throughout
-the Dockerfiles and helper scripts, and you may wish to change those
-when you run your own build.
+terminal change directories to this repository's direcotry and build via
+``docker build <your repo>/<your image name>:<your tag> .``.
 
 Local Installation
 ------------------
