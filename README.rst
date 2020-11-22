@@ -515,6 +515,12 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.3
+^^^^^
+
+Fixes a compatibility issue with Python 3.6 that was introduced in
+``v1.1.2``.
+
 1.1.2
 ^^^^^
 
