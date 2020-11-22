@@ -17,6 +17,13 @@ def _log_ffmpeg_normalize(msg, level):
     method(f'[ffmpeg-normalize]: %s', msg)
 
 
+def _fix_ffmpeg_normalize_output(output):
+    """Especially on Linux, we're getting some weird byte style (I
+    think, I don't dabble in that low level stuff) characters showing up
+    in the output from ffmpeg-normalize. Fix that."""
+    return re.sub(r'\x1b\[.{1,4}m', '', output)
+
+
 def normalize(in_dir, out_dir, extensions, ffmpeg_path=None):
     # If given an ffmpeg path, use it.
     if ffmpeg_path is not None:
@@ -43,17 +50,22 @@ def normalize(in_dir, out_dir, extensions, ffmpeg_path=None):
                '-ext', 'mp3'], capture_output=True,
             env=env)
 
-        # Split stdout and stderr by newlines.
-        stdout = re.split(r'\r*\n', result.stdout.decode('utf-8'))
-        stderr = re.split(r'\r*\n', result.stderr.decode('utf-8'))
+        # Split stdout and stderr by newlines after stripping off odd
+        # byte style output that shows up.
+        stdout = re.split(
+            r'\r*\n',
+            _fix_ffmpeg_normalize_output(result.stdout.decode('utf-8')))
+        stderr = re.split(
+            r'\r*\n',
+            _fix_ffmpeg_normalize_output(result.stderr.decode('utf-8')))
 
         # Loop and log.
         # TODO: It would probably be better to directly pipe this from
         #   the subprocess to a log so the logging occurs in real time.
         #   Oh well, not worth the effort at this point :)
         for out in stdout:
-            # Not sure why we see this at the end... I'm no byte wizard.
-            if out == '\x1b[0m':
+            # Skip empty lines
+            if len(out) == 0:
                 continue
 
             # Ignore "nuisance" logging.
