@@ -27,67 +27,54 @@ you, the reader!
 Contents
 --------
 
-`disquip-bot`_
+1.  `Introduction`_
 
-    `Introduction`_
+    a.  `Backstory`_
 
-        `Backstory`_
+2.  `Installation Overview`_
+3.  `Installation Preliminaries`_
 
-    `Installation Overview`_
+    a.  `Download disquip.ini`_
+    b. `Create "audio_files" Directory`_
 
-    `Installation Preliminaries`_
+4.  `Docker Based Installation`_
 
-        `Download disquip.ini`_
+    a.  `Install Docker On Windows`_
+    b.  `Download the DisQuip Bot Docker Image`_
 
-        `Create "audio_files" Directory`_
+5.  `Local Installation`_
 
-    `Docker Based Installation`_
+    a.  `Prerequisites`_
+    b.  `Quick Note For Mac/Linux Users`_
+    c.  `Install FFmpeg (Windows)`_
+    d.  `Configure Python Virtual Environment and Install DisQuip Bot`_
 
-        `Install Docker On Windows`_
+6.  `Audio Files`_
 
-        `Download the DisQuip Bot Docker Image`_
+    a.  `Where Can I Find Audio Files?`_
 
-    `Local Installation`_
+7.  `Discord Configuration`_
 
-        `Prerequisites`_
+    a.  `Create a Discord Application`_
+    b.  `Add the Bot to Servers`_
 
-        `Quick Note For Mac/Linux Users`_
+8.  `Configuration`_
 
-        `Install FFmpeg (Windows)`_
+    a.  `API Token`_
+    b.  `Aliases`_
 
-        `Configure Python Virtual Environment and Install DisQuip Bot`_
+9.  `Run the Bot`_
 
-    `Audio Files`_
+    a.  `Running for Docker Install`_
+    b.  `Running for Local Install`_
+    c.  `Updating Configurations or Audio Files`_
 
-        `Where Can I Find Audio Files?`_
+10. `Using the Bot`_
 
-    `Discord Configuration`_
+    a.  `Help`_
 
-        `Create a Discord Application`_
-
-        `Add the Bot to Servers`_
-
-    `Configuration`_
-
-        `API Token`_
-
-        `Aliases`_
-
-    `Run the Bot`_
-
-        `Running for Docker Install`_
-
-        `Running for Local Install`_
-
-        `Updating Configurations or Audio Files`_
-
-    `Using the Bot`_
-
-        `Help`_
-
-    `Hosting the DisQuip Bot On a Server`_
-
-    `Changelog`_
+11. `Hosting the DisQuip Bot On a Server`_
+12. `Changelog`_
 
 
 Installation Overview
