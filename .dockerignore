@@ -1,29 +1,19 @@
-# Audio files will get mounted via a volume, don't include on build.
+# Directories, alphabetically:
+.git
+.idea
+**/.pytest_cache
 audio_files
 audio_files_normalized
-# If you also have a local FFmpeg install, don't include it...
+build
+disquip_bot.egg-info
+dist
 ffmpeg
-# No local testing cache or virtual environment:
-**/.pytest_cache
-venv*
+service
 venv
-venv36
-# No PyCharm or Git stuff.
-.idea
-.git
-# No helper Docker files.
-docker_ffmpeg
-# Do not include the .ini file to avoid accidental inclusion of API key.
-disquip.ini
-# No distribution files.
-dist
-build
-disquip_bot.egg-info
-# No debug file.
+**/venv*
+
+# Files, alphabetically:
+**/*.bat
+.gitignore
 debug.py
-# No batch scripts.
-*.bat
-# No packaging directories.
-build
-disquip_bot.egg-info
-dist
+disquip.ini

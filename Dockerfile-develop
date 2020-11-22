@@ -1,5 +1,5 @@
 # Development Dockerfile that just installs requirements.
-FROM blthayer/ffmpeg:slim
+FROM python:3.8-slim
 
 # Suppress the annoying pip version check and disable caching to
 # save space.
@@ -9,5 +9,14 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_CACHE_DIR=0
 WORKDIR /disquip-bot
 COPY requirements.txt .
 
-# Install Python requirements.
-RUN pip install --no-cache-dir -r requirements.txt
+# Install requirements.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ffmpeg \
+        libffi-dev \
+        libnacl-dev \
+        python-dev && \
+    rm -rf /var/lib/apt/lists* && \
+    apt-get -y autoremove && \
+    apt-get -y autoclean && \
+    pip install --no-cache-dir -r requirements.txt
