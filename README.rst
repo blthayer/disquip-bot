@@ -515,6 +515,14 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.2
+^^^^^
+
+- New "disconnect" command: https://github.com/blthayer/disquip-bot/issues/13
+- Removed nuisance logging if normalized files already existed: https://github.com/blthayer/disquip-bot/issues/16
+- Adding automated Docker image builds: https://github.com/blthayer/disquip-bot/issues/14
+- Adding cron job example to service: https://github.com/blthayer/disquip-bot/issues/17
+
 1.1.1
 ^^^^^
 
