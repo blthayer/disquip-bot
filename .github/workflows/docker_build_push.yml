@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Build and push!
-      - name: Build builder stage of gldpy
+      - name: Build and push image
         uses: docker/build-push-action@v2
         with:
           context: .
