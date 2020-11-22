@@ -88,6 +88,13 @@ service:
 13. Check the bot's status: ``sudo systemctl status disquip-bot``
 14. Enable the bot to start up on system boot:
     ``sudo systemctl enable disquip-bot``
+15. Copy ``disquip-bot.cron`` into ``/etc/cron.d``:
+    ``sudo cp disquip-bot.cron /etc/cron.d`` to restart the disquip-bot
+    service daily at 4:45am. Modify ``disquip-bot.cron`` to change when
+    the restart occurs if you'd like.
+16. OPTIONAL: Restart cron to ensure everything is okay:
+    ``sudo service cron reload``. Hopefully you'll see something like:
+    ``[ ok ] Reloading configuration files for periodic command scheduler: cron.``
 
 And that's it! You can now manage DisQuip Bot via systemd/the
 ``systemctl`` command, and you can find logs at
