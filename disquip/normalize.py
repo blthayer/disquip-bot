@@ -47,7 +47,7 @@ def normalize(in_dir, out_dir, extensions, ffmpeg_path=None):
         result = subprocess.run(
             ['ffmpeg-normalize'] + files
             + ['-of', out_dir, '-nt', 'peak', '-t', '0', '-c:a', 'libmp3lame',
-               '-ext', 'mp3'], capture_output=True,
+               '-ext', 'mp3'], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             env=env)
 
         # Split stdout and stderr by newlines after stripping off odd
