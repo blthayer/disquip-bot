@@ -21,6 +21,8 @@ HELP = ['help', 'h']
 # position 0.
 RANDOM = ['random', 'rand', 'r']
 
+RANDOM_CMD_OUT_PREFIX = 'Playing quip for '
+
 
 # noinspection PyDataclass,PyArgumentList
 @attr.s(repr=True, auto_detect=False, str=True, eq=False, order=False,
@@ -128,8 +130,12 @@ class BotHelper:
 
             file = self.audio_collection.get_path(
                 store_name=store_name, idx=r_idx)
+
+            # Return something like 'Playing random quip for "aoe3 2"'
+            # along with the file name.
             return (
-                f'Playing quip for "{self.cmd_prefix}{store_name} {r_idx}"',
+                (f'{RANDOM_CMD_OUT_PREFIX}"{self.cmd_prefix}{store_name} "'
+                 f'{r_idx}"'),
                 file)
 
         # Now we've got a simple command. It's validity is still in
@@ -321,7 +327,11 @@ class DisQuipBot(discord.Client):
             return
 
         # Send in text message if applicable.
-        elif msg:
+        # Do not send in the random command message, that should be
+        # sent only immediately before playing the file, because we
+        # need to check if the user is in a voice channel before we
+        # send in this text message.
+        elif msg and not msg.startswith(RANDOM_CMD_OUT_PREFIX):
             await self._send_message(channel=message.channel, msg=msg)
 
         # Get outta here if there's no audio file.
@@ -333,6 +343,10 @@ class DisQuipBot(discord.Client):
 
         if voice_channel is None:
             return
+
+        # Send in the random message, if applicable.
+        if msg and msg.startswith(RANDOM_CMD_OUT_PREFIX):
+            await self._send_message(channel=message.channel, msg=msg)
 
         # Transform the audio.
         try:
