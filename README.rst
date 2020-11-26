@@ -515,6 +515,12 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.4
+^^^^^
+
+Addressed minor issue with random command when the caller was not in a
+voice channel.
+
 1.1.3
 ^^^^^
 
