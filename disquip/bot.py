@@ -308,42 +308,52 @@ class BotHelper:
                 )
                 return msg
 
-            # Look up First, look it up.
-            audio_store_name = self._get_store_name(store)
+            msg, cmd_headers, cmd_list = self._create_help_for_store(store, msg, pattern)
 
-            if audio_store_name is None:
+            if (cmd_headers is None) or (cmd_list is None):
                 return f'"{store}" is not a valid command or alias!'
-
-            msg += f'Available quips for "{self.cmd_prefix}{store}"'
-            if pattern is not None:
-                msg += f' filtered by "{pattern}"'
-            msg += ":"
-
-            # Now, we're going to build out a table of available
-            # commands and the file names without extensions.
-            cmd_list = []
-            cmd_headers = ["Quip Number", "Quip Description"]
-
-            audio_store = self.audio_collection.audio_stores[audio_store_name]
-            for number, file in audio_store.file_map.items():
-                # Extract the command.
-                _cmd = os.path.splitext(file)[0]
-
-                # Possibly skip this entry if it doesn't match the
-                # filter pattern.
-                if (pattern is not None) and (
-                    not re.search(pattern, _cmd, re.IGNORECASE)
-                ):
-                    continue
-
-                # Append.
-                cmd_list.append([number, _cmd])
 
         # Time to create a table.
         table = tabulate(cmd_list, headers=cmd_headers, tablefmt="fancy_grid")
 
         # Format and return.
         return f"{msg}\n{table}"
+
+    def _create_help_for_store(self, store, msg, pattern):
+        """returns updated message, command headers, and command list.
+        """
+        # Look up First, look it up.
+        audio_store_name = self._get_store_name(store)
+
+        if audio_store_name is None:
+            return msg, None, None
+
+        msg += f'Available quips for "{self.cmd_prefix}{store}"'
+        if pattern is not None:
+            msg += f' filtered by "{pattern}"'
+        msg += ":"
+
+        # Now, we're going to build out a table of available
+        # commands and the file names without extensions.
+        cmd_list = []
+        cmd_headers = ["Quip Number", "Quip Description"]
+
+        audio_store = self.audio_collection.audio_stores[audio_store_name]
+        for number, file in audio_store.file_map.items():
+            # Extract the command.
+            _cmd = os.path.splitext(file)[0]
+
+            # Possibly skip this entry if it doesn't match the
+            # filter pattern.
+            if (pattern is not None) and (
+                    not re.search(pattern, _cmd, re.IGNORECASE)
+            ):
+                continue
+
+            # Append.
+            cmd_list.append([number, _cmd])
+
+        return msg, cmd_headers, cmd_list
 
 
 class DisQuipBot(discord.Client):
