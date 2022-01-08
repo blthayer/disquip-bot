@@ -23,6 +23,12 @@ RANDOM = ["random", "rand", "r"]
 
 RANDOM_CMD_OUT_PREFIX = "Playing quip for "
 
+# Listing of search aliases.
+SEARCH = ["search", "s"]
+INVALID_REGEX = (
+    'The given search pattern, "{}" is not a valid ' "regular expression!"
+)
+
 
 # noinspection PyDataclass,PyArgumentList
 @attr.s(
@@ -103,6 +109,18 @@ class BotHelper:
                 return self._create_help(store=tokens[1]), None
             else:
                 return self._create_help(store=None), None
+
+        # Search:
+        if cmd_str in SEARCH:
+            if len(tokens) == 2:
+                return self._create_search(pattern=tokens[1]), None
+            else:
+                return (
+                    f'You must provide a pattern to "{SEARCH[0]}!"\n'
+                    "For more information, type: "
+                    f"{self.cmd_prefix}{HELP[0]} {SEARCH[0]}",
+                    None,
+                )
 
         # Disconnect:
         elif cmd_str == "disconnect":
@@ -198,6 +216,34 @@ class BotHelper:
         # Look it up in the alias_map. Return None if not found.
         return self.alias_map.get(cmd, None)
 
+    def _create_search(self, pattern: str) -> str:
+        """Create search message.
+
+        :param pattern: Regular expression for filtering.
+        """
+        # Loop over the available audio stores.
+        table_headers = ["Command", "Quip Number", "Quip Description"]
+
+        try:
+            table_data = [
+                [key] + hit
+                for key in self.audio_collection.audio_stores.keys()
+                for hit in self._create_help_for_store(key, "", pattern)[-1]
+            ]
+        except re.error:
+            return INVALID_REGEX.format(pattern)
+
+        if len(table_data) == 0:
+            return f'No quips match the pattern "{pattern}"'
+
+        # Time to create a table.
+        table = tabulate(
+            table_data, headers=table_headers, tablefmt="fancy_grid"
+        )
+
+        # Format and return.
+        return f'Search results for "{pattern}":\n{table}'
+
     def _create_help(self, store: Optional[str] = None) -> str:
         """Create help message.
 
@@ -223,12 +269,14 @@ class BotHelper:
                 f'- The general command syntax is "{self.cmd_prefix}<command> '
                 '<number>" where numbers start at 1.\n'
                 f"- To get help on a specific command, use "
-                f'"{help_} <command>" or "{help_} <alias>".\n'
-                f"- Help for specific commands can be filtered like "
-                f'"{help_} <command> | <pattern>"\n\t-> "<pattern>" must be '
-                f"a valid regular expression (case insensitive).\n\t-> "
+                f'"{help_} <command>" or "{help_} <alias>".\n\t-> '
+                f'Be sure to check out the help for "{RANDOM[0]}" and '
+                f'"{SEARCH[0]}"\n\t'
+                f"-> Help for specific commands can be filtered like "
+                f'"{help_} <command> | <pattern>"\n\t\t--> "<pattern>" must be'
+                f" a valid regular expression (case insensitive).\n\t\t--> "
                 f'Filtering example: "{help_} a1 | gold"\n\n'
-                f"Available commands:"
+                "Available commands:"
             )
 
             # Initialize a list. We'll turn it into a table later.
@@ -300,6 +348,20 @@ class BotHelper:
                 )
                 return msg
 
+            elif store in SEARCH:
+                cmd = f'"{self.cmd_prefix}{SEARCH[0]}"'
+                cmd_example = f'"{self.cmd_prefix}{SEARCH[0]} <pattern>"'
+                msg = (
+                    f"- The {cmd} command is used to search through help "
+                    "for ALL commands\n\t(see output of "
+                    f'"{self.cmd_prefix}{HELP[0]}" for a listing of commands) '
+                    f"for a given pattern.\n- Syntax: {cmd_example}\n"
+                    "- All users:\n\t-> Enter a word as the pattern.\n"
+                    "- Advanced users:\n\t-> Pattern must be a valid regular "
+                    "expression."
+                )
+                return msg
+
             elif store == "disconnect":
                 cmd = f'"{self.cmd_prefix}disconnect"'
                 msg = (
@@ -308,7 +370,12 @@ class BotHelper:
                 )
                 return msg
 
-            msg, cmd_headers, cmd_list = self._create_help_for_store(store, msg, pattern)
+            try:
+                msg, cmd_headers, cmd_list = self._create_help_for_store(
+                    store, msg, pattern
+                )
+            except re.error:
+                return INVALID_REGEX.format(pattern)
 
             if (cmd_headers is None) or (cmd_list is None):
                 return f'"{store}" is not a valid command or alias!'
@@ -320,8 +387,7 @@ class BotHelper:
         return f"{msg}\n{table}"
 
     def _create_help_for_store(self, store, msg, pattern):
-        """returns updated message, command headers, and command list.
-        """
+        """returns updated message, command headers, and command list."""
         # Look up First, look it up.
         audio_store_name = self._get_store_name(store)
 
@@ -346,7 +412,7 @@ class BotHelper:
             # Possibly skip this entry if it doesn't match the
             # filter pattern.
             if (pattern is not None) and (
-                    not re.search(pattern, _cmd, re.IGNORECASE)
+                not re.search(pattern, _cmd, re.IGNORECASE)
             ):
                 continue
 
