@@ -17,14 +17,8 @@ setup(
     long_description_content_type='text/x-rst',
     packages=find_packages(".", exclude=[
         'tests', '*.tests', '*.tests.*', 'service']),
-    # TODO: For whatever reason, doing "discord.py[voice]>=1.5.0" simply
-    #   did NOT work. So, we'll version-lock and manually include the
-    #   voice extra (just PyNaCl==1.3.0). I suspect this is because
-    #   I was using TestPyPi and thus it couldn't find the packages...
-    #   Unfortunate.
-    install_requires=['attrs==20.2.0', 'discord.py==1.5.0',
-                      'ffmpeg-normalize==1.20.1', 'PyNaCl==1.3.0',
-                      'tabulate==0.8.7'],
+    install_requires=['attrs==21.4.0', 'discord.py[voice]==1.7.3',
+                      'ffmpeg-normalize==1.22.4', 'tabulate==0.8.9'],
     python_requires='>=3.6',
     setup_requires=['wheel'],
     classifiers=[
