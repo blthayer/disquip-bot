@@ -92,7 +92,7 @@ class BotHelper:
 
         # Remove leading + trailing space, cast to lower case, split
         # by spaces.
-        tokens = content.strip().lower().split(" ")
+        tokens = content.strip().lower().split(" ", maxsplit=1)
 
         # Remove the prefix.
         cmd_str = re.sub(re.escape(self.cmd_prefix), "", tokens[0])
@@ -101,14 +101,9 @@ class BotHelper:
         if cmd_str in HELP:
             if len(tokens) == 2:
                 return self._create_help(store=tokens[1]), None
-            elif len(tokens) == 1:
-                return self._create_help(store=None), None
             else:
-                return (
-                    f"There are only two valid {self.cmd_prefix}help "
-                    f'forms: "{self.cmd_prefix}help" and '
-                    f"{self.cmd_prefix}help <command>."
-                ), None
+                return self._create_help(store=None), None
+
         # Disconnect:
         elif cmd_str == "disconnect":
             return "disconnect", None
@@ -224,12 +219,16 @@ class BotHelper:
         if store is None:
             # General help.
             msg += (
-                f"Help can be accessed via commands {all_help}.\n"
-                f"To get help on a specific command, use "
+                f"- Help can be accessed via commands {all_help}.\n"
+                f'- The general command syntax is "{self.cmd_prefix}<command> '
+                '<number>" where numbers start at 1.\n'
+                f"- To get help on a specific command, use "
                 f'"{help_} <command>" or "{help_} <alias>".\n'
-                f'The general syntax is "{self.cmd_prefix}<command> '
-                '<number>" where numbers start at 1.\nAvailable '
-                "commands:"
+                f"- Help for specific commands can be filtered like "
+                f'"{help_} <command> | <pattern>"\n\t-> "<pattern>" must be '
+                f"a valid regular expression (case insensitive).\n\t-> "
+                f'Filtering example: "{help_} a1 | gold"\n\n'
+                f"Available commands:"
             )
 
             # Initialize a list. We'll turn it into a table later.
@@ -278,6 +277,15 @@ class BotHelper:
 
         else:
             # Help for a specific command.
+
+            # Support for help filtering.
+            _split = store.split("|", maxsplit=1)
+            if len(_split) > 1:
+                store = _split[0].strip()
+                pattern = _split[1].strip()
+            else:
+                pattern = None
+
             # See if the user is asking help for the random command.
             if store in RANDOM:
                 cmd = f'"{self.cmd_prefix}{RANDOM[0]}"'
@@ -306,7 +314,10 @@ class BotHelper:
             if audio_store_name is None:
                 return f'"{store}" is not a valid command or alias!'
 
-            msg += f'Available quips for "{self.cmd_prefix}{store}":'
+            msg += f'Available quips for "{self.cmd_prefix}{store}"'
+            if pattern is not None:
+                msg += f' filtered by "{pattern}"'
+            msg += ":"
 
             # Now, we're going to build out a table of available
             # commands and the file names without extensions.
@@ -315,7 +326,18 @@ class BotHelper:
 
             audio_store = self.audio_collection.audio_stores[audio_store_name]
             for number, file in audio_store.file_map.items():
-                cmd_list.append([number, os.path.splitext(file)[0]])
+                # Extract the command.
+                _cmd = os.path.splitext(file)[0]
+
+                # Possibly skip this entry if it doesn't match the
+                # filter pattern.
+                if (pattern is not None) and (
+                    not re.search(pattern, _cmd, re.IGNORECASE)
+                ):
+                    continue
+
+                # Append.
+                cmd_list.append([number, _cmd])
 
         # Time to create a table.
         table = tabulate(cmd_list, headers=cmd_headers, tablefmt="fancy_grid")
