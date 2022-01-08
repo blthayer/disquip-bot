@@ -1,6 +1,8 @@
 attrs
+black
 discord.py[voice]
 ffmpeg-normalize
+isort
 pytest
 pytest-lazy-fixture
 tabulate

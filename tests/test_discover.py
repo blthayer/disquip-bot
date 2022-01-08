@@ -37,21 +37,23 @@ def test_file_structure(temp_filesystem, temp_pre_suf_one, temp_pre_suf_two):
 
 
 @pytest.fixture(params=[0, 1])
-def audio_store_and_expected_files(temp_filesystem, request) \
-        -> typing.Tuple[discover.AudioStore, int]:
+def audio_store_and_expected_files(
+    temp_filesystem, request
+) -> typing.Tuple[discover.AudioStore, int]:
     """Return an AudioStore along with the number of files it should
     have.
     """
     audio_dir = os.listdir(temp_filesystem)[request.param]
-    if audio_dir.startswith('One'):
+    if audio_dir.startswith("One"):
         expected_files = 2
-    elif audio_dir.startswith('two'):
+    elif audio_dir.startswith("two"):
         expected_files = 3
     else:
-        raise ValueError(f'Did not expect audio_dir {audio_dir}.')
+        raise ValueError(f"Did not expect audio_dir {audio_dir}.")
 
     audio_store = discover.AudioStore(
-        top_dir=temp_filesystem, audio_dir=audio_dir)
+        top_dir=temp_filesystem, audio_dir=audio_dir
+    )
     return audio_store, expected_files
 
 
@@ -59,8 +61,7 @@ class TestAudioStore:
     """Test the AudioStore class."""
 
     def test_map(self, audio_store_and_expected_files):
-        """Ensure the file map is as expected.
-        """
+        """Ensure the file map is as expected."""
         audio_store = audio_store_and_expected_files[0]
         expected_files = audio_store_and_expected_files[1]
 
@@ -75,13 +76,13 @@ class TestAudioStore:
         for key, file in audio_store.file_map.items():
 
             # Check the extension.
-            ext = os.path.splitext(file)[1].replace('.', '')
+            ext = os.path.splitext(file)[1].replace(".", "")
             assert ext in audio_store.audio_extensions
 
             # File should exist.
             assert os.path.exists(
-                os.path.join(
-                    audio_store.top_dir, audio_store.audio_dir, file))
+                os.path.join(audio_store.top_dir, audio_store.audio_dir, file)
+            )
 
     def test_file_count(self, audio_store_and_expected_files):
         """Check the file_count property."""
@@ -97,11 +98,12 @@ class TestAudioStore:
         expected_files = audio_store_and_expected_files[1]
 
         for i in range(expected_files):
-            assert os.path.exists(audio_store.get_path(i+1))
+            assert os.path.exists(audio_store.get_path(i + 1))
 
-    @pytest.mark.parametrize('key', [10293834, 155])
+    @pytest.mark.parametrize("key", [10293834, 155])
     def test_get_path_returns_none_for_bad_key(
-            self, audio_store_and_expected_files, key):
+        self, audio_store_and_expected_files, key
+    ):
         """Expect None return for nonexistent key."""
         audio_store = audio_store_and_expected_files[0]
         assert audio_store.get_path(key) is None
@@ -129,7 +131,7 @@ class TestAudioCollection:
             assert audio_collection.top_dir == value.top_dir
 
     @pytest.mark.parametrize(
-        'key_idx,file_idx', [(0, 1), (0, 2), (1, 1), (1, 2), (1, 3)]
+        "key_idx,file_idx", [(0, 1), (0, 2), (1, 1), (1, 2), (1, 3)]
     )
     def test_get_path_valid(self, audio_collection, key_idx, file_idx):
         """For valid store names and file indexes, we should get a
@@ -139,15 +141,14 @@ class TestAudioCollection:
         keys = list(audio_collection.audio_stores.keys())
         keys.sort()
         store_name = keys[key_idx]
-        assert os.path.exists(audio_collection.get_path(
-            store_name, file_idx))
+        assert os.path.exists(audio_collection.get_path(store_name, file_idx))
 
     def test_get_path_bad_store(self, audio_collection):
-        with pytest.raises(ValueError, match='No such audio_name, bleh'):
-            audio_collection.get_path(store_name='bleh', idx=1)
+        with pytest.raises(ValueError, match="No such audio_name, bleh"):
+            audio_collection.get_path(store_name="bleh", idx=1)
 
     def test_get_path_bad_idx(self, audio_collection):
         store = list(audio_collection.audio_stores.keys())[0]
         count = audio_collection.audio_stores[store].file_count
-        with pytest.raises(IndexError, match='No such integer key'):
-            audio_collection.get_path(store_name=store, idx=count+1)
+        with pytest.raises(IndexError, match="No such integer key"):
+            audio_collection.get_path(store_name=store, idx=count + 1)

@@ -1,10 +1,10 @@
 """The bot!"""
 
 # Standard library:
+import logging
 import os
 import random
 import re
-import logging
 from typing import Dict, Optional, Sequence, Tuple, Union
 
 # Third party:
@@ -16,28 +16,39 @@ from tabulate import tabulate
 from .discover import AudioCollection
 
 # Listing of help aliases
-HELP = ['help', 'h']
+HELP = ["help", "h"]
 # Listing of random aliases. Make sure to keep the full command in
 # position 0.
-RANDOM = ['random', 'rand', 'r']
+RANDOM = ["random", "rand", "r"]
 
-RANDOM_CMD_OUT_PREFIX = 'Playing quip for '
+RANDOM_CMD_OUT_PREFIX = "Playing quip for "
 
 
 # noinspection PyDataclass,PyArgumentList
-@attr.s(repr=True, auto_detect=False, str=True, eq=False, order=False,
-        hash=False, init=True, slots=True, frozen=False, auto_attribs=False,
-        kw_only=True, collect_by_mro=True)
+@attr.s(
+    repr=True,
+    auto_detect=False,
+    str=True,
+    eq=False,
+    order=False,
+    hash=False,
+    init=True,
+    slots=True,
+    frozen=False,
+    auto_attribs=False,
+    kw_only=True,
+    collect_by_mro=True,
+)
 class BotHelper:
     """The bot!"""
+
     audio_collection: AudioCollection = attr.ib()
     """Instantiated AudioCollection."""
 
-    log: logging.Logger = attr.ib(
-        factory=lambda: logging.getLogger(__name__))
+    log: logging.Logger = attr.ib(factory=lambda: logging.getLogger(__name__))
     """Logger for the bot."""
 
-    cmd_prefix: str = attr.ib(default='!')
+    cmd_prefix: str = attr.ib(default="!")
     """Command prefix to use."""
 
     aliases: Dict[str, Sequence[str]] = attr.ib(factory=dict)
@@ -46,12 +57,12 @@ class BotHelper:
 
     @aliases.validator
     def validate_aliases(self, attribute, aliases):
-        """Ensure that each key in aliases maps to a valid AudioStore.
-        """
+        """Ensure that each key in aliases maps to a valid AudioStore."""
         for key in aliases.keys():
             if key not in self.audio_collection.audio_stores:
-                raise ValueError(f'Directory "{key}" in given aliases does '
-                                 'not exist!')
+                raise ValueError(
+                    f'Directory "{key}" in given aliases does ' "not exist!"
+                )
 
     alias_map: Dict[str, str] = attr.ib(init=False)
     """Dictionary of aliases to commands."""
@@ -64,8 +75,9 @@ class BotHelper:
             for alias in aliases:
                 self.alias_map[alias] = cmd
 
-    def parse_message(self, content: str) -> \
-            Tuple[Union[str, None], Union[str, None]]:
+    def parse_message(
+        self, content: str
+    ) -> Tuple[Union[str, None], Union[str, None]]:
         """Parse text messages.
 
         :param content: Message contents as a string.
@@ -80,10 +92,10 @@ class BotHelper:
 
         # Remove leading + trailing space, cast to lower case, split
         # by spaces.
-        tokens = content.strip().lower().split(' ')
+        tokens = content.strip().lower().split(" ")
 
         # Remove the prefix.
-        cmd_str = re.sub(re.escape(self.cmd_prefix), '', tokens[0])
+        cmd_str = re.sub(re.escape(self.cmd_prefix), "", tokens[0])
 
         # Help:
         if cmd_str in HELP:
@@ -92,12 +104,14 @@ class BotHelper:
             elif len(tokens) == 1:
                 return self._create_help(store=None), None
             else:
-                return (f'There are only two valid {self.cmd_prefix}help '
-                        f'forms: "{self.cmd_prefix}help" and '
-                        f"{self.cmd_prefix}help <command>."), None
+                return (
+                    f"There are only two valid {self.cmd_prefix}help "
+                    f'forms: "{self.cmd_prefix}help" and '
+                    f"{self.cmd_prefix}help <command>."
+                ), None
         # Disconnect:
-        elif cmd_str == 'disconnect':
-            return 'disconnect', None
+        elif cmd_str == "disconnect":
+            return "disconnect", None
 
         # Ignore commands with more than 1 argument.
         if len(tokens) > 2:
@@ -111,9 +125,11 @@ class BotHelper:
                 # have an equal probability.
                 store_name = random.choices(
                     list(self.audio_collection.audio_stores.keys()),
-                    weights=[x.file_count for x in
-                             self.audio_collection.audio_stores.values()],
-                    k=1
+                    weights=[
+                        x.file_count
+                        for x in self.audio_collection.audio_stores.values()
+                    ],
+                    k=1,
                 )[0]
 
             else:
@@ -126,17 +142,22 @@ class BotHelper:
             # Select a random file.
             r_idx = random.randrange(
                 1,
-                self.audio_collection.audio_stores[store_name].file_count + 1)
+                self.audio_collection.audio_stores[store_name].file_count + 1,
+            )
 
             file = self.audio_collection.get_path(
-                store_name=store_name, idx=r_idx)
+                store_name=store_name, idx=r_idx
+            )
 
             # Return something like 'Playing random quip for "aoe3 2"'
             # along with the file name.
             return (
-                (f'{RANDOM_CMD_OUT_PREFIX}"{self.cmd_prefix}{store_name} "'
-                 f'{r_idx}"'),
-                file)
+                (
+                    f'{RANDOM_CMD_OUT_PREFIX}"{self.cmd_prefix}{store_name} "'
+                    f'{r_idx}"'
+                ),
+                file,
+            )
 
         # Now we've got a simple command. It's validity is still in
         # question, however.
@@ -147,20 +168,26 @@ class BotHelper:
         try:
             idx = int(tokens[1])
         except (ValueError, TypeError):
-            return ('Only integer command arguments are allowed. You gave '
-                    f'{tokens[1]}.'), None
+            return (
+                "Only integer command arguments are allowed. You gave "
+                f"{tokens[1]}."
+            ), None
 
         try:
             file = self.audio_collection.get_path(store_name=cmd, idx=idx)
         except IndexError:
-            return (f'Argument "{tokens[1]}" for command "{tokens[0]}" is not '
-                    f'valid. Type "{self.cmd_prefix}help" for help.'), None
+            return (
+                f'Argument "{tokens[1]}" for command "{tokens[0]}" is not '
+                f'valid. Type "{self.cmd_prefix}help" for help.'
+            ), None
         else:
             return None, file
 
     def _bad_command(self, cmd: str) -> str:
-        return (f'Command "{cmd}" does not exist. '
-                + f'Type "{self.cmd_prefix}help" to list commands.')
+        return (
+            f'Command "{cmd}" does not exist. '
+            + f'Type "{self.cmd_prefix}help" to list commands.'
+        )
 
     def _get_store_name(self, cmd: str) -> Union[str, None]:
         """Look up an audio store given a command, which could be an
@@ -186,56 +213,62 @@ class BotHelper:
         """
 
         # For convenience, get prefix + help.
-        all_help = ' or '.join([f'"{self.cmd_prefix}{help_}"'
-                                for help_ in HELP])
+        all_help = " or ".join(
+            [f'"{self.cmd_prefix}{help_}"' for help_ in HELP]
+        )
         help_ = f"{self.cmd_prefix}help"
 
         # Initialize the message.
-        msg = ''
+        msg = ""
 
         if store is None:
             # General help.
             msg += (
-                    f'Help can be accessed via commands {all_help}.\n'
-                    f'To get help on a specific command, use '
-                    f'"{help_} <command>" or "{help_} <alias>".\n'
-                    f'The general syntax is "{self.cmd_prefix}<command> '
-                    '<number>" where numbers start at 1.\nAvailable '
-                    'commands:')
+                f"Help can be accessed via commands {all_help}.\n"
+                f"To get help on a specific command, use "
+                f'"{help_} <command>" or "{help_} <alias>".\n'
+                f'The general syntax is "{self.cmd_prefix}<command> '
+                '<number>" where numbers start at 1.\nAvailable '
+                "commands:"
+            )
 
             # Initialize a list. We'll turn it into a table later.
             # Headers will be command, aliases, num commands
             cmd_list = []
-            cmd_headers = ['Command', 'Alias(es)', 'Number of Quips']
+            cmd_headers = ["Command", "Alias(es)", "Number of Quips"]
 
             # Add in the disconnect listing.
-            cmd_list.append(
-                (f'{self.cmd_prefix}disconnect', 'N/A', 'N/A'))
+            cmd_list.append((f"{self.cmd_prefix}disconnect", "N/A", "N/A"))
 
             # Add in random listing.
             cmd_list.append(
-                (f'{self.cmd_prefix}{RANDOM[0]}',
-                 ', '.join(
-                     [f'{self.cmd_prefix}{alias}' for alias in RANDOM[1:]]),
-                 'N/A'))
+                (
+                    f"{self.cmd_prefix}{RANDOM[0]}",
+                    ", ".join(
+                        [f"{self.cmd_prefix}{alias}" for alias in RANDOM[1:]]
+                    ),
+                    "N/A",
+                )
+            )
 
             # Loop over the available audio stores.
             for key, audio_store in self.audio_collection.audio_stores.items():
 
                 # First entry will be the key.
-                sub_list = [f'{self.cmd_prefix}{key}']
+                sub_list = [f"{self.cmd_prefix}{key}"]
 
                 # Now, try to find aliases.
                 aliases = self.aliases.get(key, False)
                 if aliases:
                     # Prefix.
-                    prefixed = [f'{self.cmd_prefix}{alias}'
-                                for alias in aliases]
+                    prefixed = [
+                        f"{self.cmd_prefix}{alias}" for alias in aliases
+                    ]
                     # Moosh into a string.
-                    sub_list.append(', '.join(prefixed))
+                    sub_list.append(", ".join(prefixed))
                 else:
                     # No aliases. Use the empty string.
-                    sub_list.append('')
+                    sub_list.append("")
 
                 # Add the number of commands.
                 sub_list.append(audio_store.file_count)
@@ -250,20 +283,20 @@ class BotHelper:
                 cmd = f'"{self.cmd_prefix}{RANDOM[0]}"'
                 cmd_example = f'"{self.cmd_prefix}{RANDOM[0]} <command>"'
                 msg = (
-                    f'The {cmd} command can be used '
-                    f'In one of two ways:\n- No arguments (e.g. {cmd}): '
-                    'Randomly choose both a command and a quip.\n'
-                    f'- Passing a valid command as an argument (e.g. '
-                    f'{cmd_example}): Randomly choose a quip for the given '
-                    f'command.'
+                    f"The {cmd} command can be used "
+                    f"In one of two ways:\n- No arguments (e.g. {cmd}): "
+                    "Randomly choose both a command and a quip.\n"
+                    f"- Passing a valid command as an argument (e.g. "
+                    f"{cmd_example}): Randomly choose a quip for the given "
+                    f"command."
                 )
                 return msg
 
-            elif store == 'disconnect':
+            elif store == "disconnect":
                 cmd = f'"{self.cmd_prefix}disconnect"'
                 msg = (
-                    f'The {cmd} command disconnects the bot from the voice '
-                    'channel of the user that gave the command.'
+                    f"The {cmd} command disconnects the bot from the voice "
+                    "channel of the user that gave the command."
                 )
                 return msg
 
@@ -273,31 +306,30 @@ class BotHelper:
             if audio_store_name is None:
                 return f'"{store}" is not a valid command or alias!'
 
-            msg += (
-                f'Available quips for "{self.cmd_prefix}{store}":'
-            )
+            msg += f'Available quips for "{self.cmd_prefix}{store}":'
 
             # Now, we're going to build out a table of available
             # commands and the file names without extensions.
             cmd_list = []
-            cmd_headers = ['Quip Number', 'Quip Description']
+            cmd_headers = ["Quip Number", "Quip Description"]
 
             audio_store = self.audio_collection.audio_stores[audio_store_name]
             for number, file in audio_store.file_map.items():
                 cmd_list.append([number, os.path.splitext(file)[0]])
 
         # Time to create a table.
-        table = tabulate(cmd_list, headers=cmd_headers, tablefmt='fancy_grid')
+        table = tabulate(cmd_list, headers=cmd_headers, tablefmt="fancy_grid")
 
         # Format and return.
-        return f'{msg}\n{table}'
+        return f"{msg}\n{table}"
 
 
 class DisQuipBot(discord.Client):
     """The bot!"""
 
-    def __init__(self, bot_helper: BotHelper, *args, ffmpeg='ffmpeg',
-                 **kwargs):
+    def __init__(
+        self, bot_helper: BotHelper, *args, ffmpeg="ffmpeg", **kwargs
+    ):
         """Add bot_helper and ffmpeg attributes, pass remaining args
         and kwargs to super constructor.
 
@@ -310,8 +342,7 @@ class DisQuipBot(discord.Client):
         super(DisQuipBot, self).__init__(*args, **kwargs)
 
     async def on_ready(self):
-        self.bot_helper.log.info(
-            'Logged in as {0.user}'.format(self))
+        self.bot_helper.log.info("Logged in as {0.user}".format(self))
 
     async def on_message(self, message: discord.Message):
         # Don't respond to yourself.
@@ -322,7 +353,7 @@ class DisQuipBot(discord.Client):
         msg, audio_file = self.bot_helper.parse_message(message.content)
 
         # Check for disconnect flag:
-        if (msg == 'disconnect') and (audio_file is None):
+        if (msg == "disconnect") and (audio_file is None):
             await self._disconnect_voice(message)
             return
 
@@ -353,10 +384,12 @@ class DisQuipBot(discord.Client):
             # https://github.com/Rapptz/discord.py/blob/master/examples/basic_voice.py
             source = discord.PCMVolumeTransformer(
                 discord.FFmpegPCMAudio(
-                    source=audio_file, executable=self.ffmpeg))
+                    source=audio_file, executable=self.ffmpeg
+                )
+            )
         except Exception as exc:
-            await message.channel.send('Something went wrong...')
-            self.bot_helper.log.exception('Failed to transform audio.')
+            await message.channel.send("Something went wrong...")
+            self.bot_helper.log.exception("Failed to transform audio.")
             return
         else:
             for voice_client in self.voice_clients:
@@ -381,21 +414,21 @@ class DisQuipBot(discord.Client):
         else:
             # Chunk it up. Start by dropping the triple back ticks.
             # Break up by newlines.
-            lines = msg.split('\n')
+            lines = msg.split("\n")
 
             # Initialize the chunk to send.
-            chunk = ''
+            chunk = ""
             for line in lines:
                 # The 7 comes from triple backticks * 2 plus a
                 # newline.
                 if len(chunk) + len(line) + 7 < 2000:
-                    chunk += line + '\n'
+                    chunk += line + "\n"
                 else:
                     # Send in the chunk, but exclude the last
                     # newline.
                     await channel.send(self._format_chunk(chunk))
                     # Reset the chunk.
-                    chunk = line + '\n'
+                    chunk = line + "\n"
 
             # Send the last chunk.
             if len(chunk) > 0:
@@ -407,7 +440,7 @@ class DisQuipBot(discord.Client):
 
     @staticmethod
     def _format_msg(msg):
-        return f'```{msg}```'
+        return f"```{msg}```"
 
     async def _connect_voice(self, message):
         # Get the relevant voice channel.
@@ -417,14 +450,15 @@ class DisQuipBot(discord.Client):
         if voice_channel is None:
             await message.channel.send(
                 "Hey there troll, you aren't in a voice channel! "
-                "No quips for you!")
+                "No quips for you!"
+            )
             return None
 
         # Attempt to connect.
         try:
             await voice_channel.connect()
         except discord.ClientException as exc:
-            if 'already connected' in exc.args[0].lower():
+            if "already connected" in exc.args[0].lower():
                 # Already connected, do nothing.
                 pass
             else:
@@ -465,6 +499,6 @@ class DisQuipBot(discord.Client):
     @staticmethod
     async def _disconnect_not_allowed(channel):
         await channel.send(
-            'Hey there, troll, you cannot disconnect the DisQuip Bot without '
-            'being in the same voice channel as the bot.'
+            "Hey there, troll, you cannot disconnect the DisQuip Bot without "
+            "being in the same voice channel as the bot."
         )

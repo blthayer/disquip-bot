@@ -8,7 +8,6 @@ from typing import Any, Dict, List, Sequence, Union
 # Third party:
 import attr
 
-
 # module-level logger, named differently so there's no confusion between which
 # logger is being used.
 module_log = logging.getLogger(__name__)
@@ -41,7 +40,7 @@ def _create_store_logger(store) -> logging.Logger:
     module_log.debug(
         "Mapping AudioStore.audio_dir (%s) to logger name '%s'",
         store.audio_dir,
-        logger_name
+        logger_name,
     )
     return logging.getLogger(logger_name)
 
@@ -58,7 +57,7 @@ class AudioStore:
     audio_dir: str = attr.ib()
     """Name of audio directory relative to ``top_dir``."""
 
-    audio_extensions: Sequence[str] = attr.ib(default=('mp3', 'wav'))
+    audio_extensions: Sequence[str] = attr.ib(default=("mp3", "wav"))
     """Audio extensions to look for. No periods, please."""
 
     log: logging.Logger = attr.ib(
@@ -76,9 +75,11 @@ class AudioStore:
         """Build the file_map."""
 
         # List files.
-        files = [x for x in os.listdir(self._audio_dir_full)
-                 if os.path.splitext(x)[1].replace('.', '')
-                 in self.audio_extensions]
+        files = [
+            x
+            for x in os.listdir(self._audio_dir_full)
+            if os.path.splitext(x)[1].replace(".", "") in self.audio_extensions
+        ]
 
         # Sort.
         files.sort()
@@ -130,12 +131,17 @@ class AudioCollection:
     audio_stores: Dict[str, AudioStore] = attr.ib(
         init=False,
         default=attr.Factory(
-            lambda self: {audio_dir: AudioStore(top_dir=self.top_dir,
-                                                audio_dir=audio_dir,
-                                                **self.audio_store_kw_args)
-                          for audio_dir in os.listdir(self.top_dir)},
-            takes_self=True
-        ))
+            lambda self: {
+                audio_dir: AudioStore(
+                    top_dir=self.top_dir,
+                    audio_dir=audio_dir,
+                    **self.audio_store_kw_args,
+                )
+                for audio_dir in os.listdir(self.top_dir)
+            },
+            takes_self=True,
+        ),
+    )
     """Dictionary mapping of AudioStores for each subdirectory in
     top_dir.
     """
@@ -154,14 +160,14 @@ class AudioCollection:
         try:
             audio_store = self.audio_stores[store_name]
         except KeyError:
-            raise ValueError(f'No such audio_name, {store_name}.') from None
+            raise ValueError(f"No such audio_name, {store_name}.") from None
 
         # Lookup the path from the AudioStore given the index.
         path = audio_store.get_path(idx)
 
         # Raise exception if the index is not present.
         if path is None:
-            raise IndexError(f'No such integer key, {idx}')
+            raise IndexError(f"No such integer key, {idx}")
 
         # All done!
         return path
