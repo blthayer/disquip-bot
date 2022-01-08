@@ -4,5 +4,5 @@ discord.py[voice]
 ffmpeg-normalize
 isort
 pytest
-pytest-lazy-fixture
+pytest-cases
 tabulate
