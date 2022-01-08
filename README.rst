@@ -515,6 +515,14 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.5
+^^^^^
+
+Adding two methods to filter help:
+
+- A global ``search`` command (alias: ``s``)
+- Adding the ability to filter help for a given command like ``!help a1 | pattern``
+
 1.1.4
 ^^^^^
 
