@@ -74,12 +74,17 @@ def main():
     # Get aliases.
     aliases = {key: split(value) for key, value in config["aliases"].items()}
 
+    try:
+        max_str = dqc["max_search_entries"]
+    except KeyError:
+        max_str = "20"
+
     # Fire up the bot helper.
     bot_helper = BotHelper(
         cmd_prefix=dqc["cmd_prefix"],
         audio_collection=audio_collection,
         aliases=aliases,
-        max_search_entries=int(dqc["max_search_entries"]),
+        max_search_entries=int(max_str),
     )
 
     # Instantiate a DisQuipBot.
