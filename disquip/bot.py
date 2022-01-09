@@ -240,7 +240,8 @@ class BotHelper:
 
             table_data.extend([[key] + hit for hit in hits])
 
-            if len(table_data) == limit:
+            if len(table_data) >= limit:
+                table_data = table_data[0:limit]
                 hit_limit = True
                 break
 
