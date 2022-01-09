@@ -398,9 +398,17 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.7
+^^^^^
+
+-   Fix bug in search limiting. D'Oh!
+-   Ensure backwards compatibility. D'Oh!
+-   See notes for ``1.1.6``
+
 1.1.6
 ^^^^^
 
+-   **Please use 1.1.7!**
 -   Add configurable maximum number of results for search (introduced in
     ``1.1.5``), defaults to 20.
 -   Drop all support for Docker. You can find directions related to
@@ -415,8 +423,9 @@ Changelog
 
 Adding two methods to filter help:
 
-- A global ``search`` command (alias: ``s``)
-- Adding the ability to filter help for a given command like ``!help a1 | pattern``
+-   **Please use 1.1.7!**
+-   A global ``search`` command (alias: ``s``)
+-   Adding the ability to filter help for a given command like ``!help a1 | pattern``
 
 1.1.4
 ^^^^^
