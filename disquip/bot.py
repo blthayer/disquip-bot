@@ -59,7 +59,12 @@ class BotHelper:
 
     aliases: Dict[str, Sequence[str]] = attr.ib(factory=dict)
     """Dictionary of command aliases. Keys should be valid audio
-    sub-directories."""
+    sub-directories.
+    """
+
+    max_search_entries: int = attr.ib(default=20)
+    """Cap the number of results returned for the search command.
+    """
 
     @aliases.validator
     def validate_aliases(self, attribute, aliases):
@@ -222,27 +227,45 @@ class BotHelper:
         :param pattern: Regular expression for filtering.
         """
         # Loop over the available audio stores.
-        table_headers = ["Command", "Quip Number", "Quip Description"]
+        table_data = []
+        limit = self.max_search_entries
+        hit_limit = False
+        for key in self.audio_collection.audio_stores.keys():
+            try:
+                msg, headers, hits = self._create_help_for_store(
+                    key, "", pattern, limit=limit
+                )
+            except re.error:
+                return INVALID_REGEX.format(pattern)
 
-        try:
-            table_data = [
-                [key] + hit
-                for key in self.audio_collection.audio_stores.keys()
-                for hit in self._create_help_for_store(key, "", pattern)[-1]
-            ]
-        except re.error:
-            return INVALID_REGEX.format(pattern)
+            table_data.extend([[key] + hit for hit in hits])
+
+            if len(table_data) == limit:
+                hit_limit = True
+                break
 
         if len(table_data) == 0:
             return f'No quips match the pattern "{pattern}"'
+
+        # noinspection PyUnboundLocalVariable
+        table_headers = ["Command"] + headers
 
         # Time to create a table.
         table = tabulate(
             table_data, headers=table_headers, tablefmt="fancy_grid"
         )
 
+        if not hit_limit:
+            msg = ""
+        else:
+            # Lazy hacking. Look, I just want this thing to work without
+            # a refactor and I seriously don't plan on adding any more
+            # features (famous last words)
+            # noinspection PyUnboundLocalVariable
+            msg = msg.split("\n")[0]
+
         # Format and return.
-        return f'Search results for "{pattern}":\n{table}'
+        return f'{msg}\nSearch results for "{pattern}":\n{table}'
 
     def _create_help(self, store: Optional[str] = None) -> str:
         """Create help message.
@@ -331,8 +354,10 @@ class BotHelper:
             if len(_split) > 1:
                 store = _split[0].strip()
                 pattern = _split[1].strip()
+                limit = self.max_search_entries
             else:
                 pattern = None
+                limit = None
 
             # See if the user is asking help for the random command.
             if store in RANDOM:
@@ -372,7 +397,7 @@ class BotHelper:
 
             try:
                 msg, cmd_headers, cmd_list = self._create_help_for_store(
-                    store, msg, pattern
+                    store, msg, pattern, limit=limit
                 )
             except re.error:
                 return INVALID_REGEX.format(pattern)
@@ -386,8 +411,11 @@ class BotHelper:
         # Format and return.
         return f"{msg}\n{table}"
 
-    def _create_help_for_store(self, store, msg, pattern):
+    def _create_help_for_store(self, store, msg, pattern, limit: int = None):
         """returns updated message, command headers, and command list."""
+        if limit is None:
+            limit = -1
+
         # Look up First, look it up.
         audio_store_name = self._get_store_name(store)
 
@@ -406,6 +434,14 @@ class BotHelper:
 
         audio_store = self.audio_collection.audio_stores[audio_store_name]
         for number, file in audio_store.file_map.items():
+            if len(cmd_list) == limit:
+                # This message doesn't exactly belong here, but oh well.
+                msg = (
+                    f"Results trimmed to {len(cmd_list)} hits. "
+                    "Use a better search pattern! ;)\n"
+                ) + msg
+                break
+
             # Extract the command.
             _cmd = os.path.splitext(file)[0]
 

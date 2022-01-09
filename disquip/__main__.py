@@ -79,6 +79,7 @@ def main():
         cmd_prefix=dqc["cmd_prefix"],
         audio_collection=audio_collection,
         aliases=aliases,
+        max_search_entries=int(dqc["max_search_entries"]),
     )
 
     # Instantiate a DisQuipBot.
