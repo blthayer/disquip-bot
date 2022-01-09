@@ -38,28 +38,28 @@ Contents
     c.  `Install FFmpeg and Other Prerequisite Packages`_
     d.  `Configure Python Virtual Environment and Install DisQuip Bot`_
 
-5.  `Audio Files`_
+3.  `Audio Files`_
 
     a.  `Where Can I Find Audio Files?`_
 
-6.  `Discord Configuration`_
+4.  `Discord Configuration`_
 
     a.  `Create a Discord Application`_
     b.  `Add the Bot to Servers`_
 
-7.  `Configuration`_
+5.  `Configuration`_
 
     a.  `API Token`_
     b.  `Aliases`_
 
-8.  `Run the Bot`_
+6.  `Run the Bot`_
 
-10. `Using the Bot`_
+7. `Using the Bot`_
 
     a.  `Help`_
 
-11. `Hosting the DisQuip Bot On a Server`_
-12. `Changelog`_
+8. `Hosting the DisQuip Bot On a Server`_
+9. `Changelog`_
 
 
 Installation
