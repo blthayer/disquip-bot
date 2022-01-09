@@ -31,43 +31,36 @@ Contents
 
     a.  `Backstory`_
 
-2.  `Installation Overview`_
-3.  `Installation Preliminaries`_
+2.  `Installation`_
 
-    a.  `Download disquip.ini`_
+    a. `Download disquip.ini`_
     b. `Create "audio_files" Directory`_
 
-4.  `Docker Based Installation`_
-
-    a.  `Install Docker On Windows`_
-    b.  `Download the DisQuip Bot Docker Image`_
-
-5.  `Local Installation`_
+4.  `Local Installation`_
 
     a.  `Prerequisites`_
     b.  `Quick Note For Mac/Linux Users`_
     c.  `Install FFmpeg (Windows)`_
     d.  `Configure Python Virtual Environment and Install DisQuip Bot`_
 
-6.  `Audio Files`_
+5.  `Audio Files`_
 
     a.  `Where Can I Find Audio Files?`_
 
-7.  `Discord Configuration`_
+6.  `Discord Configuration`_
 
     a.  `Create a Discord Application`_
     b.  `Add the Bot to Servers`_
 
-8.  `Configuration`_
+7.  `Configuration`_
 
     a.  `API Token`_
     b.  `Aliases`_
 
-9.  `Run the Bot`_
+8.  `Run the Bot`_
 
-    a.  `Running for Docker Install`_
-    b.  `Running for Local Install`_
-    c.  `Updating Configurations or Audio Files`_
+    a.  `Running for Local Install`_
+    b.  `Updating Configurations or Audio Files`_
 
 10. `Using the Bot`_
 
@@ -77,114 +70,32 @@ Contents
 12. `Changelog`_
 
 
-Installation Overview
----------------------
+Installation
+------------
 
 Depending on your personal level of computer literacy, installation
-takes ~10-60 minutes. There are two different ways to install the
-DisQuip Bot:
+takes ~10-60 minutes.
 
--   `Docker Based Installation`_: If you already have Docker installed,
-    this is the easiest path to take. If you do not already have Docker,
-    note that Docker is a large program (the installer for Docker alone
-    was 407MB on 2020-10-11), and it takes a little extra work to
-    `Install Docker on Windows`_ compared to to Mac/Linux. However,
-    once Docker is installed, there are significantly less steps
-    required to get the DisQuip Bot running compared to the
-    `Local Installation`_.
--   `Local Installation`_: The local installation process is relatively
-    straight forward and will lead to a leaner installation if you do
-    not have Docker installed and don't plan to install it in the
-    future. However, it involves downloading and installing several
-    programs as well as manually placing program files in directories of
-    your choosing.
+Preliminaries
+^^^^^^^^^^^^^
+Please follow the directions below before moving forward.
 
-Whichever route you choose, be sure to first take care of the
-`Installation Preliminaries`_.
+1.  Create a new directory called ``disquip-bot`` in your home directory.
+    On Windows, that's typically ``C:\Users\<youruser>\disquip-bot``.
+    To keep these directions simple, this directory will be referred to as
+    ``~/disquip-bot`` going forward.
 
-Installation Preliminaries
---------------------------
+2.  Download `disquip.ini`_ and place it in ``~/disquip-bot``. Later, in
+    `Configuration`_ we'll be modifying this file.
 
-No matter which installation route you take (see
-`Installation Overview`_), we're going to need a directory to place
-configuration and audio files. The directions here will assume that you
-created a new directory called ``disquip-bot`` in your home directory.
-On Windows, that's typically ``C:\Users\<youruser>\disquip-bot``. Please
-create this directory before going forward. To keep these directions
-simple, this directory will be referred to as ``~/disquip-bot`` going
-forward.
+3.  Create a new directory called ``audio_files`` underneath
+    ``~/disquip-bot``. This is where we'll be placing our quips later on
+    (`Audio Files`_).
 
-Download disquip.ini
-^^^^^^^^^^^^^^^^^^^^
+Prerequisites
+^^^^^^^^^^^^^
 
-Download `disquip.ini`_ and place it in ``~/disquip-bot``. Later, in
-`Configuration`_ we'll be modifying this file.
-
-Create "audio_files" Directory
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Create a new directory called ``audio_files`` underneath
-``~/disquip-bot``. This is where we'll be placing our quips later on
-(`Audio Files`_).
-
-
-Docker Based Installation
--------------------------
-
-Note that if you're running Windows, you'll need at least Windows 10
-version 2004. More details can be found at `Install Docker on Windows`_.
-
-The Docker installation process is simpler for Linux users (and maybe
-for Mac users as well?), so no directions are provided here. Head on out
-to the `Docker`_ documentation to get started.
-
-
-Install Docker On Windows
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-How you proceed depends on the edition of Windows 10 you're running. Many
-users will likely have Windows Home, and should thus *carefully* follow
-the directions at `Install Docker on Windows Home`_. If you have a
-Windows edition other than Windows Home, *carefully* follow the
-directions at
-`Install Docker on Windows Pro, Enterprise, or Education`_.
-
-The easiest way to tell the Windows edition, version, and build you're
-running is to type "About" into the Windows search bar, and open
-click on the "About your PC" box. In the window that opens, scroll down
-to "Windows specifications" to get information about your Windows
-installation.
-
-Inevitably, Docker's installation instructions will instruct you to
-`Install Windows Subsystem for Linux`_. At the time of writing
-(2020-10-11), you can stop after completing "Step 5 - Set WSL 2 as your
-default version." No need to move on to "Step 6 - Install you Linux
-distribution of choice" unless you would like to.
-
-
-Download the DisQuip Bot Docker Image
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Once you have Docker installed, it's time to download the Docker image
-for DisQuip. Open up your favorite terminal (e.g. Command Prompt on
-Windows) and enter in the command
-``docker pull blthayer/disquip-bot:latest``. You'll now have a runnable
-Docker image with all the DisQuip Bot prerequisites already installed.
-
-**For Advanced Users**: If you would prefer to build your own Docker
-image rather than pull a pre-built one, that is of course an option.
-Start by cloning or downloading the repository locally. Then, in your
-terminal change directories to this repository's direcotry and build via
-``docker build <your repo>/<your image name>:<your tag> .``.
-
-Local Installation
-------------------
-
-Local installation involves installing `Prerequisites`_ and then
-installing the DisQuip Bot.
-
-Quick Note For Mac/Linux Users
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Note for Mac and Linux Users:**
 
 This bot depends on a wonderful package called `discord.py`_. There are
 additional dependencies that need installed for voice support for
@@ -192,8 +103,7 @@ Mac/Linux. Please check out their
 `installation instructions <https://discordpy.readthedocs.io/en/latest/intro.html#installing>`__
 and install the prerequisites before continuing.
 
-Prerequisites
-^^^^^^^^^^^^^
+Onward.
 
 TL;DR:
 
@@ -203,7 +113,8 @@ TL;DR:
 -   **OPTIONAL**: `Notepad++`_
 
 DisQuip Bot *should* be operating system agnostic, but to date has only
-been tested on Windows (I know, gross.).
+been tested on Windows (I know, gross.) and Linux (specifically, on a
+Debian-like distribution).
 
 DisQuip Bot is a Python program and thus requires that you install
 `Python`_. Specifically, ensure you are running a version of Python
@@ -435,36 +346,14 @@ Run the Bot
 -----------
 
 After you've performed all the installation and configuration steps
-above, you're ready to run! Running the bot looks different depending
-on whether you took the `Docker Based Installation`_ or
-`Local Installation`_ path. Read on!
+above, you're ready to run!
 
-Running for Docker Install
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you're on Windows, download the file called ``docker_run.bat`` from
-`DisQuip Bot`_ on GitHub and place it in your ``~/disquip-bot``
-directory. Simply run the script inside the ``~/disquip-bot`` directory
-to fire it up! This script assumes you've placed all files as directed
-in these directions. If you didn't, the script will be easy to tweak.
-For Mac/Linux users, ``docker_run.bat`` will be very easy to port to
-a shell script.
-
-To stop the bot, use the ``Ctrl + C`` keyboard command. Unfortunately,
-this will only kill the command window and not the actual Docker
-container. Run ``docker container ls`` to view running containers.
-Locate the name (``NAMES`` column) of the running container and then
-execute ``docker stop <name>``.
-
-Running for Local Install
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This is pretty quick and easy! :)
-
-1.  Using a command prompt, change directories to ``~/disquip-bot`` via
-    ``cd %USERPROFILE%\disquip-bot``.
-2.  Activate your virtual environment via the command
-    ``venv\Scripts\activate.bat``.
+1.  Using a command prompt, change directories to ``~/disquip-bot``:
+    ``cd %USERPROFILE%\disquip-bot`` (Windows); ``cd ~/disquip-bot``
+    (Mac/Linux).
+2.  Activate your virtual environment:
+    ``venv\Scripts\activate.bat`` (Windows); ``source venv/bin/activate``
+    (Mac/Linux).
 3.  Execute the command ``disquip-bot`` to fire it up.
 
 When you're done, simply kill the command window you have running or
@@ -569,14 +458,11 @@ throughout the DisQuip Bot.
 .. _DisQuip Bot: https://github.com/blthayer/disquip-bot
 .. _DisQuip Bot .zip archive: https://github.com/blthayer/disquip-bot/archive/main.zip
 .. _DisQuip Bot via git clone: https://github.com/blthayer/disquip-bot.git
-.. _Docker: https://docs.docker.com/
 .. _Download Python: https://www.python.org/downloads/
 .. _FFmpeg: https://ffmpeg.org/
 .. _ffmpeg-normalize: https://github.com/slhck/ffmpeg-normalize
 .. _git-essentials FFmpeg build: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-essentials.7z
 .. _gyan.dev: https://www.gyan.dev/ffmpeg/builds/
-.. _Install Docker on Windows Home: https://docs.docker.com/docker-for-windows/install-windows-home/
-.. _Install Docker on Windows Pro, Enterprise, or Education: https://docs.docker.com/docker-for-windows/install/
 .. _Install Windows Subsystem for Linux: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 .. _myinstants.com: https://www.myinstants.com
 .. _Notepad++: https://notepad-plus-plus.org/
