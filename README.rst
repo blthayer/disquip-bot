@@ -35,7 +35,7 @@ Contents
 
     a.  `Preliminaries`_
     b.  `Prerequisites`_
-    c.  `Install FFmpeg (Windows)`_
+    c.  `Install FFmpeg and Other Prerequisite Packages`_
     d.  `Configure Python Virtual Environment and Install DisQuip Bot`_
 
 5.  `Audio Files`_
@@ -87,22 +87,13 @@ Please follow the directions below before moving forward.
 Prerequisites
 ^^^^^^^^^^^^^
 
-**Note for Mac and Linux Users:**
-
-This bot depends on a wonderful package called `discord.py`_. There are
-additional dependencies that need installed for voice support for
-Mac/Linux. Please check out their
-`installation instructions <https://discordpy.readthedocs.io/en/latest/intro.html#installing>`__
-and install the prerequisites before continuing.
-
-Onward.
-
 TL;DR:
 
 -   `Python`_ >= 3.6
 -   `FFmpeg`_
--   `7zip`_
--   **OPTIONAL**: `Notepad++`_
+-   (For Linux, Mac should be similar): ``libff-dev``, ``libnacl-dev``, ``python-dev``
+-   (For Windows only): `7zip`_
+-   (For Windows only, **OPTIONAL**): `Notepad++`_
 
 DisQuip Bot *should* be operating system agnostic, but to date has only
 been tested on Windows (I know, gross.) and Linux (specifically, on a
@@ -117,15 +108,26 @@ For Windows users: later we'll be downloaded a compressed ``.7z``
 archive that we'll need to extract. For extraction, we'll use `7zip`_.
 Please download and install.
 
-In order to stream audio files over the internet, a handy program
-called `FFmpeg`_ is used. Windows users should refer to
-`Install FFmpeg (Windows)`_. Mac/Linux users are assumed to be highly
-computer literate users who can get FFmpeg working solely given the link
-to FFmpeg :) If anyone would like to provide directions for Mac or Linux
-I'm happy to add them here.
+Install FFmpeg and Other Prerequisite Packages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Install FFmpeg (Windows)
-^^^^^^^^^^^^^^^^^^^^^^^^
+Refer to the `FFmpeg`_ website and/or `discord.py`_'s
+`installation instructions <https://discordpy.readthedocs.io/en/latest/intro.html#installing>`__
+if the directions here are inadequate.
+
+**Mac**
+
+Sorry, I don't have a Mac. Feel free to send me a pull request with
+Mac directions!
+
+**Linux (Debian)**
+
+::
+
+    apt-get update
+    apt-get install ffmpeg libffi-dev libnacl-dev python3-dev
+
+**Windows**
 
 Fortunately, helpful folks like Gyan Doshi exist and provide pre-built
 FFmpeg distributions. Installing is as simple as:
