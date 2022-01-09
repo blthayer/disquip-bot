@@ -33,13 +33,8 @@ Contents
 
 2.  `Installation`_
 
-    a. `Download disquip.ini`_
-    b. `Create "audio_files" Directory`_
-
-4.  `Local Installation`_
-
-    a.  `Prerequisites`_
-    b.  `Quick Note For Mac/Linux Users`_
+    a.  `Preliminaries`_
+    b.  `Prerequisites`_
     c.  `Install FFmpeg (Windows)`_
     d.  `Configure Python Virtual Environment and Install DisQuip Bot`_
 
@@ -58,9 +53,6 @@ Contents
     b.  `Aliases`_
 
 8.  `Run the Bot`_
-
-    a.  `Running for Local Install`_
-    b.  `Updating Configurations or Audio Files`_
 
 10. `Using the Bot`_
 
@@ -316,7 +308,7 @@ Configuration
 
 All the necessary configuration parameters for DisQuip Bot are defined
 in ``disquip.ini``, which you should have downloaded during the
-`Installation Preliminaries`_. Rather than list every configuration
+`Preliminaries`_. Rather than list every configuration
 option here, they're all listed in ``disquip.ini``. Open that file with
 your favorite text editor (I strongly recommend `Notepad++`_ if you're
 using Windows so that you can get syntax highlighting) and update the
