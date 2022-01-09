@@ -398,6 +398,18 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.6
+^^^^^
+
+-   Add configurable maximum number of results for search (introduced in
+    ``1.1.5``), defaults to 20.
+-   Drop all support for Docker. You can find directions related to
+    Docker by viewing this repository at `v1.1.4`_. If you can live
+    without the search introduced in ``1.1.5``, you can still pull the
+    image for ``1.1.4``::
+
+        docker pull blthayer/disquip-bot:v1.1.4
+
 1.1.5
 ^^^^^
 
@@ -463,3 +475,4 @@ throughout the DisQuip Bot.
 .. _Python: https://www.python.org/
 .. _Raspberry Pi 3 Model B: https://www.raspberrypi.org/products/raspberry-pi-3-model-b/
 .. _Will Ross: https://github.com/paxswill
+.. _v1.1.4: https://github.com/blthayer/disquip-bot/tree/v1.1.4
