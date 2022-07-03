@@ -59,10 +59,10 @@ class TestBotHelper:
         # The help message should contain all the aliases and all the
         # commands.
         for cmd in bot_helper.audio_collection.store_names:
-            assert re.search(fr"\s{prefix}{cmd}\s", msg)
+            assert re.search(rf"\s{prefix}{cmd}\s", msg)
 
         for alias in bot_helper.alias_map.keys():
-            assert re.search(fr"\s{prefix}{alias}\s", msg)
+            assert re.search(rf"\s{prefix}{alias}\s", msg)
 
     def test_help_for_alias(self, bot_helper, prefix):
         """Check that we can lookup by alias."""
