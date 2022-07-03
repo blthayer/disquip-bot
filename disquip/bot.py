@@ -335,8 +335,8 @@ class BotHelper:
                 '<number>" where numbers start at 1.\n'
                 f"- To get help on a specific command, use "
                 f'"{help_} <command>" or "{help_} <alias>".\n\t-> '
-                f'Be sure to check out the help for "{RANDOM[0]}" and '
-                f'"{SEARCH[0]}"\n\t'
+                f'Be sure to check out the help for "{RANDOM[0]}," '
+                f'"{SEARCH[0]}," and "{LUCKY[0]}"\n\t'
                 f"-> Help for specific commands can be filtered like "
                 f'"{help_} <command> | <pattern>"\n\t\t--> "<pattern>" must be'
                 f" a valid regular expression (case insensitive).\n\t\t--> "
@@ -352,16 +352,20 @@ class BotHelper:
             # Add in the disconnect listing.
             cmd_list.append((f"{self.cmd_prefix}disconnect", "N/A", "N/A"))
 
-            # Add in random listing.
-            cmd_list.append(
-                (
-                    f"{self.cmd_prefix}{RANDOM[0]}",
-                    ", ".join(
-                        [f"{self.cmd_prefix}{alias}" for alias in RANDOM[1:]]
-                    ),
-                    "N/A",
+            # Add in search, lucky, and random listings.
+            for _list in (SEARCH, LUCKY, RANDOM):
+                cmd_list.append(
+                    (
+                        f"{self.cmd_prefix}{_list[0]}",
+                        ", ".join(
+                            [
+                                f"{self.cmd_prefix}{alias}"
+                                for alias in _list[1:]
+                            ]
+                        ),
+                        "N/A",
+                    )
                 )
-            )
 
             # Loop over the available audio stores.
             for key, audio_store in self.audio_collection.audio_stores.items():
@@ -405,7 +409,7 @@ class BotHelper:
             if store in RANDOM:
                 cmd = f'"{self.cmd_prefix}{RANDOM[0]}"'
                 cmd_example = f'"{self.cmd_prefix}{RANDOM[0]} <command>"'
-                msg = (
+                return (
                     f"The {cmd} command can be used "
                     f"In one of two ways:\n- No arguments (e.g. {cmd}): "
                     "Randomly choose both a command and a quip.\n"
@@ -413,12 +417,11 @@ class BotHelper:
                     f"{cmd_example}): Randomly choose a quip for the given "
                     f"command."
                 )
-                return msg
 
             elif store in SEARCH:
                 cmd = f'"{self.cmd_prefix}{SEARCH[0]}"'
                 cmd_example = f'"{self.cmd_prefix}{SEARCH[0]} <pattern>"'
-                msg = (
+                return (
                     f"- The {cmd} command is used to search through help "
                     "for ALL commands\n\t(see output of "
                     f'"{self.cmd_prefix}{HELP[0]}" for a listing of commands) '
@@ -427,15 +430,21 @@ class BotHelper:
                     "- Advanced users:\n\t-> Pattern must be a valid regular "
                     "expression."
                 )
-                return msg
+
+            elif store in LUCKY:
+                cmd = f'"{self.cmd_prefix}{LUCKY[0]}"'
+                return (
+                    f'The {cmd} command is like the "{SEARCH[0]}" command, '
+                    "but plays the first quip that is found. See also help "
+                    f'for "{SEARCH[0]}."'
+                )
 
             elif store == "disconnect":
                 cmd = f'"{self.cmd_prefix}disconnect"'
-                msg = (
+                return (
                     f"The {cmd} command disconnects the bot from the voice "
                     "channel of the user that gave the command."
                 )
-                return msg
 
             try:
                 msg, cmd_headers, cmd_list = self._create_help_for_store(
