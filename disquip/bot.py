@@ -5,7 +5,7 @@ import logging
 import os
 import random
 import re
-from typing import Dict, Optional, Sequence, Tuple, Union
+from typing import Dict, List, Optional, Sequence, Tuple, Union
 
 # Third party:
 import attr
@@ -28,6 +28,9 @@ SEARCH = ["search", "s"]
 INVALID_REGEX = (
     'The given search pattern, "{}" is not a valid ' "regular expression!"
 )
+
+# "Lucky" aliases
+LUCKY = ["lucky", "l", "lk"]
 
 
 # noinspection PyDataclass,PyArgumentList
@@ -127,6 +130,38 @@ class BotHelper:
                     None,
                 )
 
+        # Lucky (horrible, horrible, hacky copy + paste. Can't wait to
+        # refactor for version 2...):
+        if cmd_str in LUCKY:
+            if len(tokens) == 2:
+                _result = self._create_search(
+                    pattern=tokens[1], limit=1, create_table=False
+                )
+                pass
+            else:
+                return (
+                    f'You must provide a pattern to "{LUCKY[0]}!"\n'
+                    "For more information, type: "
+                    f"{self.cmd_prefix}{HELP[0]} {LUCKY[0]}",
+                    None,
+                )
+
+            if not isinstance(_result, str):
+                _store_name = _result[0][0]
+                _idx = _result[0][1]
+                file = self.audio_collection.get_path(
+                    store_name=_store_name, idx=_idx
+                )
+                return (
+                    (
+                        f'{RANDOM_CMD_OUT_PREFIX}"{self.cmd_prefix}{_store_name} "'
+                        f'{_idx}"'
+                    ),
+                    file,
+                )
+            else:
+                return _result, None
+
         # Disconnect:
         elif cmd_str == "disconnect":
             return "disconnect", None
@@ -221,14 +256,16 @@ class BotHelper:
         # Look it up in the alias_map. Return None if not found.
         return self.alias_map.get(cmd, None)
 
-    def _create_search(self, pattern: str) -> str:
+    def _create_search(
+        self, pattern: str, limit=None, create_table=True
+    ) -> Union[str, List[Tuple[str, int, str]]]:
         """Create search message.
 
         :param pattern: Regular expression for filtering.
         """
         # Loop over the available audio stores.
         table_data = []
-        limit = self.max_search_entries
+        limit = limit or self.max_search_entries
         hit_limit = False
         for key in self.audio_collection.audio_stores.keys():
             try:
@@ -248,25 +285,29 @@ class BotHelper:
         if len(table_data) == 0:
             return f'No quips match the pattern "{pattern}"'
 
-        # noinspection PyUnboundLocalVariable
-        table_headers = ["Command"] + headers
-
         # Time to create a table.
-        table = tabulate(
-            table_data, headers=table_headers, tablefmt="fancy_grid"
-        )
+        if create_table:
 
-        if not hit_limit:
-            msg = ""
-        else:
-            # Lazy hacking. Look, I just want this thing to work without
-            # a refactor and I seriously don't plan on adding any more
-            # features (famous last words)
             # noinspection PyUnboundLocalVariable
-            msg = msg.split("\n")[0]
+            table_headers = ["Command"] + headers
 
-        # Format and return.
-        return f'{msg}\nSearch results for "{pattern}":\n{table}'
+            table = tabulate(
+                table_data, headers=table_headers, tablefmt="fancy_grid"
+            )
+
+            if not hit_limit:
+                msg = ""
+            else:
+                # Lazy hacking. Look, I just want this thing to work without
+                # a refactor and I seriously don't plan on adding any more
+                # features (famous last words)
+                # noinspection PyUnboundLocalVariable
+                msg = msg.split("\n")[0]
+
+            # Format and return.
+            return f'{msg}\nSearch results for "{pattern}":\n{table}'
+
+        return table_data
 
     def _create_help(self, store: Optional[str] = None) -> str:
         """Create help message.
