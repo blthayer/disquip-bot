@@ -398,6 +398,12 @@ flavors of Linux. If you'd like to get started, check out
 Changelog
 ---------
 
+1.1.8
+^^^^^
+
+Add new "lucky" command. Like "search," but plays the first found quip
+into the audio channel.
+
 1.1.7
 ^^^^^
 
