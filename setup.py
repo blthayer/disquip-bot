@@ -6,7 +6,7 @@ with open("README.rst", "r") as f:
 
 setup(
     name="disquip-bot",
-    version="1.1.7",
+    version="1.1.8",
     url="https://github.com/blthayer/disquip-bot",
     license="MIT",
     author="Brandon Thayer",
@@ -21,8 +21,8 @@ setup(
     install_requires=[
         "attrs==21.4.0",
         "discord.py[voice]==1.7.3",
-        "ffmpeg-normalize==1.22.4",
-        "tabulate==0.8.9",
+        "ffmpeg-normalize==1.23.0",
+        "tabulate==0.8.10",
     ],
     python_requires=">=3.6",
     setup_requires=["wheel"],

@@ -6,3 +6,5 @@ isort
 pytest
 pytest-cases
 tabulate
+twine
+wheel

@@ -5,7 +5,7 @@ import logging
 import os
 import random
 import re
-from typing import Dict, Optional, Sequence, Tuple, Union
+from typing import Dict, List, Optional, Sequence, Tuple, Union
 
 # Third party:
 import attr
@@ -28,6 +28,9 @@ SEARCH = ["search", "s"]
 INVALID_REGEX = (
     'The given search pattern, "{}" is not a valid ' "regular expression!"
 )
+
+# "Lucky" aliases
+LUCKY = ["lucky", "l", "lk"]
 
 
 # noinspection PyDataclass,PyArgumentList
@@ -127,6 +130,37 @@ class BotHelper:
                     None,
                 )
 
+        # Lucky (horrible, horrible, hacky copy + paste. Can't wait to
+        # refactor for version 2...):
+        if cmd_str in LUCKY:
+            if len(tokens) == 2:
+                _result = self._create_search(
+                    pattern=tokens[1], limit=1, create_table=False
+                )
+            else:
+                return (
+                    f'You must provide a pattern to "{LUCKY[0]}!"\n'
+                    "For more information, type: "
+                    f"{self.cmd_prefix}{HELP[0]} {LUCKY[0]}",
+                    None,
+                )
+
+            if not isinstance(_result, str):
+                _store_name = _result[0][0]
+                _idx = _result[0][1]
+                file = self.audio_collection.get_path(
+                    store_name=_store_name, idx=_idx
+                )
+                return (
+                    (
+                        f'{RANDOM_CMD_OUT_PREFIX}"{self.cmd_prefix}{_store_name} "'
+                        f'{_idx}"'
+                    ),
+                    file,
+                )
+            else:
+                return _result, None
+
         # Disconnect:
         elif cmd_str == "disconnect":
             return "disconnect", None
@@ -221,14 +255,16 @@ class BotHelper:
         # Look it up in the alias_map. Return None if not found.
         return self.alias_map.get(cmd, None)
 
-    def _create_search(self, pattern: str) -> str:
+    def _create_search(
+        self, pattern: str, limit=None, create_table=True
+    ) -> Union[str, List[Tuple[str, int, str]]]:
         """Create search message.
 
         :param pattern: Regular expression for filtering.
         """
         # Loop over the available audio stores.
         table_data = []
-        limit = self.max_search_entries
+        limit = limit or self.max_search_entries
         hit_limit = False
         for key in self.audio_collection.audio_stores.keys():
             try:
@@ -248,25 +284,29 @@ class BotHelper:
         if len(table_data) == 0:
             return f'No quips match the pattern "{pattern}"'
 
-        # noinspection PyUnboundLocalVariable
-        table_headers = ["Command"] + headers
-
         # Time to create a table.
-        table = tabulate(
-            table_data, headers=table_headers, tablefmt="fancy_grid"
-        )
+        if create_table:
 
-        if not hit_limit:
-            msg = ""
-        else:
-            # Lazy hacking. Look, I just want this thing to work without
-            # a refactor and I seriously don't plan on adding any more
-            # features (famous last words)
             # noinspection PyUnboundLocalVariable
-            msg = msg.split("\n")[0]
+            table_headers = ["Command"] + headers
 
-        # Format and return.
-        return f'{msg}\nSearch results for "{pattern}":\n{table}'
+            table = tabulate(
+                table_data, headers=table_headers, tablefmt="fancy_grid"
+            )
+
+            if not hit_limit:
+                msg = ""
+            else:
+                # Lazy hacking. Look, I just want this thing to work without
+                # a refactor and I seriously don't plan on adding any more
+                # features (famous last words)
+                # noinspection PyUnboundLocalVariable
+                msg = msg.split("\n")[0]
+
+            # Format and return.
+            return f'{msg}\nSearch results for "{pattern}":\n{table}'
+
+        return table_data
 
     def _create_help(self, store: Optional[str] = None) -> str:
         """Create help message.
@@ -294,8 +334,8 @@ class BotHelper:
                 '<number>" where numbers start at 1.\n'
                 f"- To get help on a specific command, use "
                 f'"{help_} <command>" or "{help_} <alias>".\n\t-> '
-                f'Be sure to check out the help for "{RANDOM[0]}" and '
-                f'"{SEARCH[0]}"\n\t'
+                f'Be sure to check out the help for "{RANDOM[0]}," '
+                f'"{SEARCH[0]}," and "{LUCKY[0]}"\n\t'
                 f"-> Help for specific commands can be filtered like "
                 f'"{help_} <command> | <pattern>"\n\t\t--> "<pattern>" must be'
                 f" a valid regular expression (case insensitive).\n\t\t--> "
@@ -311,16 +351,20 @@ class BotHelper:
             # Add in the disconnect listing.
             cmd_list.append((f"{self.cmd_prefix}disconnect", "N/A", "N/A"))
 
-            # Add in random listing.
-            cmd_list.append(
-                (
-                    f"{self.cmd_prefix}{RANDOM[0]}",
-                    ", ".join(
-                        [f"{self.cmd_prefix}{alias}" for alias in RANDOM[1:]]
-                    ),
-                    "N/A",
+            # Add in search, lucky, and random listings.
+            for _list in (SEARCH, LUCKY, RANDOM):
+                cmd_list.append(
+                    (
+                        f"{self.cmd_prefix}{_list[0]}",
+                        ", ".join(
+                            [
+                                f"{self.cmd_prefix}{alias}"
+                                for alias in _list[1:]
+                            ]
+                        ),
+                        "N/A",
+                    )
                 )
-            )
 
             # Loop over the available audio stores.
             for key, audio_store in self.audio_collection.audio_stores.items():
@@ -364,7 +408,7 @@ class BotHelper:
             if store in RANDOM:
                 cmd = f'"{self.cmd_prefix}{RANDOM[0]}"'
                 cmd_example = f'"{self.cmd_prefix}{RANDOM[0]} <command>"'
-                msg = (
+                return (
                     f"The {cmd} command can be used "
                     f"In one of two ways:\n- No arguments (e.g. {cmd}): "
                     "Randomly choose both a command and a quip.\n"
@@ -372,12 +416,11 @@ class BotHelper:
                     f"{cmd_example}): Randomly choose a quip for the given "
                     f"command."
                 )
-                return msg
 
             elif store in SEARCH:
                 cmd = f'"{self.cmd_prefix}{SEARCH[0]}"'
                 cmd_example = f'"{self.cmd_prefix}{SEARCH[0]} <pattern>"'
-                msg = (
+                return (
                     f"- The {cmd} command is used to search through help "
                     "for ALL commands\n\t(see output of "
                     f'"{self.cmd_prefix}{HELP[0]}" for a listing of commands) '
@@ -386,15 +429,21 @@ class BotHelper:
                     "- Advanced users:\n\t-> Pattern must be a valid regular "
                     "expression."
                 )
-                return msg
+
+            elif store in LUCKY:
+                cmd = f'"{self.cmd_prefix}{LUCKY[0]}"'
+                return (
+                    f'The {cmd} command is like the "{SEARCH[0]}" command, '
+                    "but plays the first quip that is found. See also help "
+                    f'for "{SEARCH[0]}."'
+                )
 
             elif store == "disconnect":
                 cmd = f'"{self.cmd_prefix}disconnect"'
-                msg = (
+                return (
                     f"The {cmd} command disconnects the bot from the voice "
                     "channel of the user that gave the command."
                 )
-                return msg
 
             try:
                 msg, cmd_headers, cmd_list = self._create_help_for_store(
