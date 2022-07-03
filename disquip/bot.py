@@ -137,7 +137,6 @@ class BotHelper:
                 _result = self._create_search(
                     pattern=tokens[1], limit=1, create_table=False
                 )
-                pass
             else:
                 return (
                     f'You must provide a pattern to "{LUCKY[0]}!"\n'
