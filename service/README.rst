@@ -2,10 +2,11 @@ service
 =======
 
 This directory contains a sample implementation for running the DisQuip
-Bot as a Linux systemd service. DisQuip Bot's author was able to host
-the bot on a Raspberry Pi 3 Model B running Raspbian GNU/Linux 9
-(stretch) using these directions, although they should work for many
-different Linux variants.
+Bot as a Linux systemd service. I was able to host
+the bot on a Raspberry Pi 3 Model B running Raspbian (effectively
+Debian) 9 (stretch) using these directions, although they should work
+for many different Linux variants. More recently, I've hosted the bot on
+a Raspberry Pi 4 running Raspbian 11 (bullseye).
 
 All commands in this document are shell commands. As such, you're
 assumed to have enough Linux knowledge to run shell commands and edit
@@ -19,41 +20,34 @@ Prerequisites
     -   systemd
     -   rsyslog
     -   logrotate
+    -   cron
 -   Follow the DisQuip Bot installation instructions for a local
     installation on your Linux machine. Directions here will assume
     you have a Python virtual environment in ``~/disquip-bot/venv``.
-    This environment can quickly be created via
+    This environment can quickly be created via, *e.g.*,
     ``python3 -m venv ~/disquip-bot/venv``, and the DisQuip Bot should
-    be installed in this virtual environment:
+    be installed in this virtual environment like so:
         -   ``source ~/disquip-bot/venv/bin/activate``
-        -   ``python3 -m pip install disquip-bot``
+        -   ``python -m pip install disquip-bot``
 
-Installing Python From Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Installing Python
+^^^^^^^^^^^^^^^^^
 
-Avoid following these directions if you can. It's much simpler to use
-your OS's package manager (e.g. ``apt-get``) to install Python. However,
-if you have an older Raspberry Pi like me, the newest available version
-of Python that's available via ``apt-get`` is 3.5. I had previously
-installed Python 3.6 from source on my Pi, so I figured I'd share my
-notes with you here. These directions should work for other versions
-of Python as well. Note that building Python from source on an older
-Pi will take several hours to complete (though you don't have to be
-present for more than 5 minutes of that :)
+Often, versions of Python available via your package manager (*e.g.*,
+``apt-get`` in Debian/Ubuntu/Raspbian) are relatively old. Additionally,
+managing different Python installations and environments can be a real
+pain, and you can screw up your system if you aren't careful. See
+`xkcd <https://xkcd.com/1987/>`_.
 
-1.  Install prerequisite libraries:
-    ``sudo apt-get install libssl-dev libncurses5-dev libsqlite3-dev libreadline-dev libtk8.5 libgdm-dev libdb4o-cil-dev libpcap-dev zlib1g-dev``
-    (`source <https://stackoverflow.com/a/49696062/11052174>`__)
-2.  Download Python 3.6 source code:
-    ``wget https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tar.xz``
-3.  Extract the archive: ``tar -xf Python-3.6.12.tar.xz``
-4.  Change directories: ``cd Python-3.6.12``
-5.  Configure: ``./configure --enable-optimzations``
-6.  Make: ``make -j $(($(nproc) + 1))``
-7.  Install: ``sudo make -j $(($(nproc) + 1)) altinstall``
-8.  Optional alias: Add the following to ``~/.bash_aliases``:
-    ``alias python3='/usr/local/bin/python3.6'``
-9.  Create virtual environment: ``python3 -m venv ~/disquip-bot/venv``
+If you wish to install a different version of Python than what ships
+with your system, I highly recommend using
+`pyenv <https://github.com/pyenv/pyenv>`_ - follow the directions in
+their README very carefully (RTFM!), and don't forget to install
+`the prerequisites <https://github.com/pyenv/pyenv/wiki#suggested-build-environment>`_.
+
+If you insist on downloading the Python source and building yourself
+manually, you can find some directions in the git history of this file.
+I don't recommend it.
 
 Directions
 ----------
@@ -63,9 +57,9 @@ step-by-step directions to get the DisQuip Bot running as a systemd
 service:
 
 1.  Edit the appropriate sections of ``disquip-bot.service`` according
-    to your installation. At the time of writing, the only two
-    directives that will need your attention are ``ExecStart`` and
-    ``WorkingDirectory``.
+    to your installation. At the time of writing, the three
+    directives that will need your attention are ``ExecStart``,
+    ``Environment``, and ``WorkingDirectory``.
 2.  Copy the service file for systemd:
     ``sudo cp disquip-bot.service /lib/systemd/system/disquip-bot.service``
 3.  Update permissions:
@@ -88,13 +82,14 @@ service:
 13. Check the bot's status: ``sudo systemctl status disquip-bot``
 14. Enable the bot to start up on system boot:
     ``sudo systemctl enable disquip-bot``
-15. Copy ``disquip-bot.cron`` into ``/etc/cron.d``:
-    ``sudo cp disquip-bot.cron /etc/cron.d`` to restart the disquip-bot
-    service daily at 4:45am. Modify ``disquip-bot.cron`` to change when
-    the restart occurs if you'd like.
-16. OPTIONAL: Restart cron to ensure everything is okay:
-    ``sudo service cron reload``. Hopefully you'll see something like:
-    ``[ ok ] Reloading configuration files for periodic command scheduler: cron.``
+15. OPTIONAL: Restart the disquip-bot service daily:
+    ``sudo cp disquip-bot /etc/cron.daily/``. The file should already
+    be executable, but just in case:
+    ``sudo chmod +x /etc/cron.daily/disquip-bot``. Note that the
+    ``/etc/cron.daily`` directory is specific to Debian-like distros.
+    The bot seems to be stable enough that daily restarts aren't
+    strictly necessary, but I have experienced an issue where it got
+    hung up due to a connectivity problem.
 
 And that's it! You can now manage DisQuip Bot via systemd/the
 ``systemctl`` command, and you can find logs at
