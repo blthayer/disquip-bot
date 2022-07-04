@@ -1,7 +1,0 @@
-# Cron job to restart the DisQuip Bot
-#
-# Setting up the path may or may not be necessary...
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
-# Restart the disquip-bot daily at 4:45am.
-45 04 * * * root systemctl restart disquip-bot
