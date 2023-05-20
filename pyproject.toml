@@ -1,0 +1,71 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.autoflake]
+exclude = [".poetry", "virtualenvs", "docs", ".git", ".github", "venv", ".venv", "build", "dist"]
+
+[tool.black]
+line-length = 79
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '\.poetry|virtualenvs'
+
+[tool.coverage.run]
+omit = ["*/test_*.py"]
+
+[tool.coverage.report]
+fail_under = 100
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+line_length = 79
+extend_skip = [".poetry", "virtualenvs"]
+
+[tool.poetry]
+name = "disquip-bot"
+version = "2.0.0"
+description = "A soundboard bot for Discord."
+authors = ["blthayer"]
+
+[tool.poetry.dependencies]
+# For now and to keep things simple, 3.11 only.
+python = ">=3.11, <3.12.0"
+
+[tool.poetry.group.dev.dependencies]
+black = ">=22.3.0"
+coverage = {version = ">=6.3.2", extras=["toml"]}
+flake8 = ">=4.0.1"
+isort = ">=5.10.1"
+pylint = ">=2.13.7"
+pytest = ">=7.1.2"
+pytest-cases = ">=3.6.11"
+pytest-cov = ">=3.0.0"
+pre-commit = ">=2.18.1"
+autoflake = ">=1.4"
+
+[tool.pylint.main]
+max-line-length = 79
+unsafe-load-any-extension = true
+
+[tool.pylint.messages_control]
+disable = ["fixme"]
+enable = ["useless-suppression"]
+
+[tool.pylint.format]
+good-names = ["X"]
+
+[tool.pytest.ini_options]
+addopts = """
+    --cov=disquip_bot
+    --cov-report=html:htmlcov
+    --cov-report term-missing
+    --doctest-modules
+    --doctest-glob=*.md
+"""
+# If a warning is emitted during a test, make it fail.
+# https://docs.pytest.org/en/latest/how-to/capture-warnings.html
+filterwarnings = [
+    "error"
+]
